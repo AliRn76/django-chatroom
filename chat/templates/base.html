@@ -1,0 +1,68 @@
+{% load static %}
+<html>
+    <header>
+        <title>Its all on base</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+
+            body {
+              background: #C5DDEB;
+              font: 14px/20px "Lato", Arial, sans-serif;
+
+            }
+
+            .container {
+              border: 2px solid #dedede;
+              background-color: #f1f1f1;
+              border-radius: 5px;
+              padding: 10px;
+              margin: 10px 0;
+            }
+
+            .darker {
+              border-color: #ccc;
+              background-color: #ddd;
+            }
+
+            .container::after {
+              content: "";
+              clear: both;
+              display: table;
+            }
+
+            .container img {
+              float: left;
+              max-width: 60px;
+              width: 100%;
+              margin-right: 20px;
+              border-radius: 50%;
+            }
+
+            .container img.right {
+              float: right;
+              margin-left: 20px;
+              margin-right:0;
+            }
+
+            .time-right {
+              float: right;
+              color: #aaa;
+            }
+
+            .time-left {
+              float: left;
+              color: #999;
+            }
+
+        </style>
+    </header>
+    <body>
+
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>
+

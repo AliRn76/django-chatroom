@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+</script>
+
+<div class="topnav" id="myTopnav">
+    {% if active %}
+        <a href="/chat/1" class="active">Public Chat</a>
+        <div class="dropdown">
+            <button class="dropbtn">Private Chats
+              <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                {% for i in pv_list %}
+                    <a href="../../private-chat/{{ i.id }}" class="notification">
+                        <span>{{ i.name }}</span>
+                        <span class="badge">{{i.unread}}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <a href="/myprofile">Profile</a>
+        <a href="/admin/logout">Logout</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    {% else %}
+        <a href="/signup" class="active">Sign Up</a>
+        <a href="/admin/login/?next=/admin/">Login</a>
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+    {% endif %}
+
+</div>
+</br>
+<h1 style="text-align: center">Hello {{name}}</h1>
+</br>
+</br>
+<h5 style="text-align: center">Age Login nakarde bashe , Sign Up Ro Sabz mikone, vagarna Public Chat ro</h5>
+<h5 style="text-align: center">Esmesho Jeloye Hello mizane</h5>
+<h5 style="text-align: center">Tedad Unread Ha Ro Oon Bala Mizane :)</h5>
+<h5 style="text-align: center">Navbar Ta Hodoodi Responsive Shod ...</h5>
+<h5 style="text-align: center">Unread Message Ezafe Shod</h5>
+<h5 style="text-align: center">Mitoni Profile khodeto edit koni</h5>
+<h5 style="text-align: center">Profile khodet ba taraf different shod</h5>
+<h5 style="text-align: center">PV ezafe shod</h5>
+<h5 style="text-align: center">PV ha i ke tooshi ,oomadan oon bala</h5>
+<h5 style="text-align: center">To Public nmishe fosh dad, vali too pv mishe</h5>
+<h5 style="text-align: center">moshkel RTL o ina fix shod</h5>
+<h5 style="text-align: center">url routing ha kheily herfei shod :)</h5>
+<h5 style="text-align: center">working on ajax ...</h5>
+<h5 style="text-align: center">searching for notification ...</h5>
+<h5 style="text-align: center">trying to make it responsive ...</h5>
+
+{% endblock %}

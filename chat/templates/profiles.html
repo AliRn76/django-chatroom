@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Profiles:</h1>
+{% for i in obj %}
+    {% if forloop.counter|divisibleby:"2" == 0 %}
+        <ul style="background-color: yellow">
+            <li>ID: <b>{{ i.id }}</b></li>
+            <li>Name: <b>{{ i.name }}</b></li>
+            <li>Last Name: <b>{{ i.lastname }}</b></li>
+            <li>Bio: <b>{{ i.bio }}</b></li>
+            <li><a href="{{ i.get_url_edit }}">Edit</a>&nbsp; &nbsp; &nbsp;<a href="{{ i.get_url_delete }}">Delete</a></li>
+<!--        <li><a href="/profile/{{ i.id }}/edit">Edit</a>&nbsp; &nbsp; &nbsp;<a href="/profile/{{ i.id }}/delete">Delete</a></li>-->
+        </ul>
+
+    {% else %}
+        <ul style="background-color: lightgreen">
+            <li>ID: <b>{{ i.id }}</b></li>
+            <li>Name: <b>{{ i.name }}</b></li>
+            <li>Last Name: <b>{{ i.lastname }}</b></li>
+            <li>Bio: <b>{{ i.bio }}</b></li>
+            <li><a href="{{ i.get_url_edit }}">Edit</a>&nbsp; &nbsp; &nbsp;<a href="{{ i.get_url_delete }}">Delete</a></li>
+        </ul>
+    {% endif %}
+{% endfor %}
+
+{% endblock %}

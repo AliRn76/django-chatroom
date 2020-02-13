@@ -1,0 +1,164 @@
+<!--<html>-->
+<!--    <header>-->
+<!--        <title>Chat</title>-->
+<!--        {% load static %}-->
+<!--        <link rel="stylesheet" type="text/css" href="{% static 'chatStyle.css' %}">-->
+
+<!--        <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">-->
+
+<!--    </header>-->
+<!--    <body class="container">-->
+
+<!--    <div style="height:100px"></div>-->
+<!--        {% for i in obj %}-->
+<!--            {% if user == i.user %}-->
+<!--                <div class="bubbleWrapper">-->
+<!--                    <div class="inlineContainer own">-->
+<!--                        <p>{{i.user}}</p>-->
+<!--                        <div class="ownBubble own">-->
+<!--                         {{ i.message }}-->
+<!--                        </div>-->
+<!--                    </div><span class="own">{{ i.datetime }}</span>-->
+<!--                </div>-->
+<!--            {% else %}-->
+<!--                <div class="bubbleWrapper">-->
+<!--                    <div class="inlineContainer">-->
+<!--                        <p>{{i.user}}</p>-->
+<!--                        <div class="otherBubble other">-->
+<!--                            {{ i.message }}-->
+<!--                        </div>-->
+<!--                    </div><span class="other">{{ i.datetime }}</span>-->
+<!--                </div>-->
+<!--            {% endif %}-->
+<!--        {% endfor %}-->
+
+<!--        <div style="width:100% ; height:100px">-->
+<!--            <form method="POST">{% csrf_token %}-->
+<!--                {{ form.as_p }}-->
+<!--            <input type="submit" value="save">-->
+<!--        </div>-->
+
+<!--    </body>-->
+<!--</html>-->
+
+
+
+<html>
+    <header>
+        <link rel="stylesheet" type="text/css" href="{% static 'newChat.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta charset="utf-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </header>
+
+    <body>
+    {% include 'navbar.html' %}
+<!--      <div class="container">-->
+     <div>  <!--  in oomade jaye balayi-->
+        <div class="chat">
+
+<!--            <div>-->
+<!--              <ul class="navul">-->
+<!--                <li class="navli"><a href="../../">Home</a></li>-->
+<!--                <li class="navli"><a href="../../chat/1">Public Chat</a></li>-->
+<!--                <li>-->
+<!--                    <div class="dropdown">-->
+<!--                        <button class="dropbtn">Private Chats-->
+<!--                          <i class="fa fa-caret-down"></i>-->
+<!--                        </button>-->
+<!--                        <div class="dropdown-content">-->
+<!--                            {% for i in pv_list %}-->
+<!--                                <a href="../../private-chat/{{ i.id }}">{{ i.name }}</a>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </li>-->
+<!--                <li class="navli"><a href="../../myprofile/{{user.id}}">Profile</a></li>-->
+<!--                <li class="navli"><a href="../../admin/logout">Logout</a></li>-->
+
+<!--              </ul>-->
+<!--            </div>-->
+
+
+            <div id="chat-history" class="chat-history">
+              <ul>
+    <!--me-->
+                {% for i in obj %}
+                    {% if user == i.user %}
+                        {% if i.firstChar in tool_2.alphabet %}
+                            <li id={{ forloop.counter }} class="clearfix">
+                              <div class="message-data align-right">
+                                <span class="message-data-time">{{ i.time }}</span>
+<!--                                <span class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</span>-->
+                                <span class="message-data-name">{{i.user.username}}</span>
+                              </div>
+                              <div class="float-right" style="font-size:10px; margin-right:0px; margin-left: 8px">
+                                <div><a href="{{ i.get_url_edit }}">Edit</a></div>
+                                <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
+                              </div>
+                              <div class="message other-message float-right">
+                                {{ i.message }}
+                              </div>
+                            </li>
+                        {% else %}
+                            <li id={{ forloop.counter }} class="clearfix">
+                              <div class="message-data align-right">
+                                <span class="message-data-time">{{ i.time }}</span>
+<!--                                <span class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</span>-->
+                                      <span class="message-data-name">{{i.user.username}}</span>
+                              </div>
+                              <div class="float-right" style="font-size:10px; margin-right:0px; margin-left: 8px">
+                                <div><a href="{{ i.get_url_edit }}">Edit</a></div>
+                                <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
+                              </div>
+                              <div class="message other-message float-right" dir="rtl">
+                                {{ i.message }}
+                              </div>
+                            </li>
+                        {% endif %}
+                    {% else %}
+    <!--other-->
+                        {% if i.firstChar in tool_2.alphabet %}
+                            <li id={{ forloop.counter }}>
+                              <div class="message-data">
+<!--                                <span><a href="../profile/{{i.user.id}}" class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</a></span>-->
+                                  <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
+                                <span class="message-data-time">{{ i.time }}</span>
+                              </div>
+
+                              <div class="message my-message">
+                                {{ i.message }}
+                              </div>
+                            </li>
+                        {% else %}
+                            <li id={{ forloop.counter }}>
+                              <div class="message-data">
+<!--                                <span><a href="../profile/{{i.user.id}}" class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</a></span>-->
+                                <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
+                                <span class="message-data-time">{{ i.time }}</span>
+                              </div>
+
+                              <div class="message my-message" dir="rtl">
+                                {{ i.message }}
+                              </div>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+
+        <div class="chat-message clearfix">
+            <form method="POST">{% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Send">
+            </form>
+        </div>
+        <script>
+            var element = document.getElementById("chat-history");
+            element.scrollTop = element.scrollHeight;
+        </script>
+    </body>
+</html>
+

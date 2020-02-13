@@ -1,0 +1,47 @@
+<!--<div>-->
+<!--  <ul class="navul">-->
+<!--    <li class="navli"><a href="/">Home</a></li>-->
+<!--    <li class="navli"><a href="/admin/login/?next=/admin/">Login</a></li>-->
+<!--    <li class="navli"><a href="/signup">Sign Up</a></li>-->
+<!--    <li class="navli"><a href="/chat/1">Public Chat</a></li>-->
+<!--    <li class="navli"><a href="/myprofile/{{user.id}}">Profile</a></li>-->
+<!--    <li class="navli"><a href="/admin/logout">Logout</a></li>-->
+<!--  </ul>-->
+<!--</div>-->
+
+
+<script>
+    function myFunction() {
+      var x = document.getElementById("myTopnav");
+      if (x.className === "topnav") {
+        x.className += " responsive";
+      } else {
+        x.className = "topnav";
+      }
+    }
+</script>
+
+<div class="topnav" id="myTopnav">
+    <a href="../../" class="active">Home</a>
+    <a href="../../chat/1" class="notification">Public Chat
+<!--        <span>Public Chat</span>-->
+<!--            <span class="badge">{{unreads}}</span>-->
+    </a>
+
+    <div class="dropdown">
+        <button class="dropbtn">Private Chats
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+            {% for i in pv_list %}
+                <a href="../../private-chat/{{ i.id }}" class="notification">
+                    <span>{{ i.name }}</span>
+                    <span class="badge">{{i.unread}}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    <a href="../../myprofile">Profile</a>
+    <a href="../../admin/logout">Logout</a>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+</div>
