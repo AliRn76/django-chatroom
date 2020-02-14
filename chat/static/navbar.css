@@ -24,10 +24,16 @@
 }
 
 
+
+
  /* Add a black background color to the top navigation */
 .topnav {
   background-color: #333;
-  overflow: hidden;
+    position:fixed;
+     top: 0;
+     width: 100%;
+    left:0;
+     z-index: 1;
 }
 
 /* Style the links inside the navigation bar */
@@ -45,6 +51,7 @@
 .active {
   background-color: #4CAF50;
   color: white;
+
 }
 
 /* Hide the link that should open and close the topnav on small screens */
@@ -55,7 +62,7 @@
 /* Dropdown container - needed to position the dropdown content */
 .dropdown {
   float: left;
-  overflow: hidden;
+
 }
 
 /* Style the dropdown button to fit inside the topnav */
@@ -77,7 +84,7 @@
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+  z-index: 2;
 }
 
 /* Style the links inside the dropdown */
@@ -120,7 +127,7 @@
 
 /* The "responsive" class is added to the topnav with JavaScript when the user clicks on the icon. This class makes the topnav look good on small screens (display the links vertically instead of horizontally) */
 @media screen and (max-width: 600px) {
-  .topnav.responsive {position: relative;}
+
   .topnav.responsive a.icon {
     position: absolute;
     right: 0;
@@ -135,14 +142,10 @@
   .topnav.responsive .dropdown-content {position: relative;}
   .topnav.responsive .dropdown .dropbtn {
     display: block;
-    width: 100%;
+    width: 99%;
     text-align: left;
   }
 }
-
-
-
-
 
 
 
@@ -166,7 +169,7 @@
 .notification .badge {
   position: absolute;
   top: -10px;
-  right: -10px;
+  right: 1px;
   padding: 5px 10px;
   border-radius: 50%;
   background: red;

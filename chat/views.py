@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.utils.datetime_safe import datetime
 from django.db import connection
-
+from django.contrib.auth import logout
 from chat.models import Chat, Room, Members
 from .forms import SingupForm, SendMessageModelForm, EditMessageModelForm, EditProfileForm, SendMessagePVModelForm
 from django.contrib.auth.models import User
@@ -14,7 +14,6 @@ class PrivateChat:
         self.id = id
         self.name = name
         self.unread = unread
-
 
 '''
 def login_view(request):
@@ -146,6 +145,39 @@ def main_view(request):
 
 ####################################################################################
 
+# def login_view(request):
+#     print("ok")
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         post = User.objects.filter(username=username)
+#         if post:
+#             username = request.POST['username']
+#             request.session['username'] = username
+#             return redirect("../")
+#         else:
+#             return render(request, 'login.html', {})
+#
+#     return render(request, "login.html",{})
+#
+
+# def profile(request):
+#     if request.session.has_key('username'):
+#         posts = request.session['username']
+#         query = User.objects.filter(username=posts)
+#         return render(request, 'app_foldername / profile.html', {"query":query})
+#     else:
+#         return render(request, 'app_foldername/login.html', {})
+
+####################################################################################
+
+def logout_view(request):
+    logout(request)
+    return redirect("../")
+
+
+####################################################################################
+
 def singup_view(request):
     # user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
     user = User
@@ -159,7 +191,7 @@ def singup_view(request):
             user.password = form.cleaned_data.get("password")
             user.objects.create_user(user.username,"",user.password,first_name=user.first_name,last_name=user.last_name, is_staff=True)
 
-            # return redirect("../chat")
+            return redirect("../login")
             # user.save()
     form = SingupForm()
     context = {

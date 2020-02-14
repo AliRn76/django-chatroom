@@ -2,18 +2,21 @@
 
 {% block content %}
 {% include 'navbar.html' %}
+</br>
+</br>
 
-<h3>Username: </h3>{{obj.username}}
-<h3>First Name: </h3>{{obj.first_name}}
-<h3>Last Name: </h3>{{obj.last_name}}
-<!--<h3>Password: </h3>{{obj.password}}-->
-<h3>email: </h3>{{obj.email}}
-<h3>Is Staff: </h3>{{obj.is_staff}}
-<h3>Is Active: </h3>{{obj.is_active}}
-<h3>Is Authenticated: </h3>{{obj.is_authenticated}}
-<h3>Last Login: </h3>{{obj.last_login}}
-<h3>Date Joined: </h3>{{obj.date_joined}}
-<a href="../private-chat/{{ pv_id }}"><h1>Send Message</h1></a>
-
+<div style="margin-left: 10px">
+    <h3>Username: </h3>{{obj.username}}
+    <h3>First Name: </h3>{{obj.first_name}}
+    <h3>Last Name: </h3>{{obj.last_name}}
+    <!--<h3>Password: </h3>{{obj.password}}-->
+    <h3>email: </h3>{{obj.email}}
+    <h3>Is Staff: </h3>{{obj.is_staff}}
+    <h3>Is Active: </h3>{{obj.is_active}}
+    <h3>Is Authenticated: </h3>{{obj.is_authenticated}}
+    <h3>Last Login: </h3>{{obj.last_login}}
+    <h3>Date Joined: </h3>{{obj.date_joined}}
+    <a href="../private-chat/{{ pv_id }}"><h1>Send Message</h1></a>
+</div>
 
 {% endblock %}

@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth.views import LoginView
 from chat.views import main_view, \
     singup_view, \
     profile_view, \
     private_chat_view, \
     myprofile_view ,\
-    myprofile_edit_view
+    myprofile_edit_view, \
+    logout_view
+    # login_view, \
     # profiles_view, \
     # profile_edit_view, \
     # profile_delete_view, \
@@ -31,6 +34,8 @@ urlpatterns = [
     path('chat/', include("chat.urls")),
 
     path('', main_view, name="main"),
+    path('login/', LoginView.as_view(template_name='login.html'), name="login"),
+    path('logout/', logout_view, name="logout"),
     path('signup/', singup_view, name="singup"),
     path('profile/<str:user_username>', profile_view, name="profile"),
     path('myprofile/', myprofile_view, name="myprofile"),

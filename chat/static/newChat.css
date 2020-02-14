@@ -5,38 +5,33 @@
 }
 
 body {
-  background: #C5DDEB;
+    background: #F2F5F8;
+
   font: 14px/20px "Lato", Arial, sans-serif;
   padding: 0px 0;
   color: white;
-  width: 100%;
+  width: 99%;
   height: 100%:
 }
 ul{
   list-style-type: none;
   }
 
-.container {
-  margin: 0 auto;
-  width: 70%;
-  background: #444753;
-  border-radius: 5px;
-}
-
 .chat {
   width: 100%;
+    color: #434651;
   float: left;
-  background: #F2F5F8;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  color: #434651;
+
+
 }
 .chat .chat-history {
   padding: 30px 30px 20px;
-  border-bottom: 2px solid white;
-  overflow-y: scroll;
+
+
   height: 65%;
+
 }
+
 .chat .chat-history .message-data {
   margin-bottom: 15px;
 }
@@ -46,11 +41,11 @@ ul{
 }
 .chat .chat-history .message {
   color: white;
-  padding: 18px 20px;
+  padding: 12px 20px;
   line-height: 20px;
   font-size: 16px;
   border-radius: 7px;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   position: relative;
 }
 .chat .chat-history .message:after {
@@ -68,27 +63,38 @@ ul{
 }
 .chat .chat-history .my-message {
   background: #86BB71;
-  width:70%
-
+    display: inline-block;
+    max-width: 70%;
 }
 .chat .chat-history .other-message {
   background: #94C2ED;
+  max-width: 50%;
+  display: inline-block;
 }
 .chat .chat-history .other-message:after {
   border-bottom-color: #94C2ED;
-  left: calc(100% - 20px);;
+  left: calc(100% - 20px);
 }
 .chat .chat-message {
-  padding: 30px;
+
+    padding:30px;
+    width: 99%;
+     position: fixed;
+     bottom: 0;
+   border-top: 2px solid white;
+    background: rgba(152,152,152,0.2);
 }
 .chat .chat-message textarea {
-  width: 100%;
+  width: 80%;
+  float:left;
   border: none;
   padding: 10px 20px;
   font: 14px/22px "Lato", Arial, sans-serif;
   margin-bottom: 10px;
   border-radius: 5px;
   resize: none;
+  border:1px solid black;
+
 }
 .chat .chat-message .fa-file-o, .chat .chat-message .fa-file-image-o {
   font-size: 16px;
@@ -97,13 +103,18 @@ ul{
 }
 .chat .chat-message input {
   float: right;
-  color: #94C2ED;
+  color: #00bfff;
   font-size: 16px;
+  border-radius:10px;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
   font-weight: bold;
   background: #F2F5F8;
+  top: 50%;
+  margin-left:5%;
+  margin-right:5%;
+  position: absolute;
 }
 .chat .chat-message input:hover {
   color: #75b1e8;
@@ -147,7 +158,10 @@ ul{
   height: 0;
 }
 
-
+.emptyPlace {
+    height:190px;
+    width:100%;
+}
 
 
 

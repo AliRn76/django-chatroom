@@ -5,7 +5,7 @@
 <!--        <link rel="stylesheet" type="text/css" href="{% static 'chatStyle.css' %}">-->
 
 <!--        <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">-->
-
+<!---->
 <!--    </header>-->
 <!--    <body class="container">-->
 
@@ -51,37 +51,12 @@
         <meta charset="utf-8">
          <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </header>
+{% include 'navbar.html' %}
+    <body id="chat-history">
 
-    <body>
-    {% include 'navbar.html' %}
-<!--      <div class="container">-->
-     <div>  <!--  in oomade jaye balayi-->
+     <div>
         <div class="chat">
-
-<!--            <div>-->
-<!--              <ul class="navul">-->
-<!--                <li class="navli"><a href="../../">Home</a></li>-->
-<!--                <li class="navli"><a href="../../chat/1">Public Chat</a></li>-->
-<!--                <li>-->
-<!--                    <div class="dropdown">-->
-<!--                        <button class="dropbtn">Private Chats-->
-<!--                          <i class="fa fa-caret-down"></i>-->
-<!--                        </button>-->
-<!--                        <div class="dropdown-content">-->
-<!--                            {% for i in pv_list %}-->
-<!--                                <a href="../../private-chat/{{ i.id }}">{{ i.name }}</a>-->
-<!--                            {% endfor %}-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </li>-->
-<!--                <li class="navli"><a href="../../myprofile/{{user.id}}">Profile</a></li>-->
-<!--                <li class="navli"><a href="../../admin/logout">Logout</a></li>-->
-
-<!--              </ul>-->
-<!--            </div>-->
-
-
-            <div id="chat-history" class="chat-history">
+            <div class="chat-history">
               <ul>
     <!--me-->
                 {% for i in obj %}
@@ -90,7 +65,6 @@
                             <li id={{ forloop.counter }} class="clearfix">
                               <div class="message-data align-right">
                                 <span class="message-data-time">{{ i.time }}</span>
-<!--                                <span class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</span>-->
                                 <span class="message-data-name">{{i.user.username}}</span>
                               </div>
                               <div class="float-right" style="font-size:10px; margin-right:0px; margin-left: 8px">
@@ -105,7 +79,6 @@
                             <li id={{ forloop.counter }} class="clearfix">
                               <div class="message-data align-right">
                                 <span class="message-data-time">{{ i.time }}</span>
-<!--                                <span class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</span>-->
                                       <span class="message-data-name">{{i.user.username}}</span>
                               </div>
                               <div class="float-right" style="font-size:10px; margin-right:0px; margin-left: 8px">
@@ -122,7 +95,6 @@
                         {% if i.firstChar in tool_2.alphabet %}
                             <li id={{ forloop.counter }}>
                               <div class="message-data">
-<!--                                <span><a href="../profile/{{i.user.id}}" class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</a></span>-->
                                   <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
@@ -134,7 +106,6 @@
                         {% else %}
                             <li id={{ forloop.counter }}>
                               <div class="message-data">
-<!--                                <span><a href="../profile/{{i.user.id}}" class="message-data-name">{{i.user.first_name}} {{i.user.last_name}}</a></span>-->
                                 <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
@@ -146,6 +117,7 @@
                         {% endif %}
                     {% endif %}
                 {% endfor %}
+                  <div class="emptyPlace"></div>
               </ul>
             </div>
 
