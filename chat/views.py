@@ -134,13 +134,14 @@ def main_view(request):
         context = {
             "pv_list": pv_list,
             "name" : request.user.first_name,
-            "active" : True
+            # "active" : True
         }
     except:
         context = {
-            "name" : "Guys",
-             "active": False
+            # "name" : "Guys",
+             # "active": False
         }
+        return render(request, "login.html", context)
     return render(request, "main.html",context)
 
 ####################################################################################
