@@ -34,14 +34,18 @@
         </button>
         <div class="dropdown-content">
             {% for i in pv_list %}
-                <a href="../../private-chat/{{ i.id }}" class="notification">
-                    <span>{{ i.name }}</span>
-                    <span class="badge">{{i.unread}}</span>
-                </a>
+                {% if i.unread %}
+                    <a href="../../private-chat/{{ i.id }}" class="notification">
+                        <span>{{ i.name }}</span>
+                        <span class="badge">{{i.unread}}</span>
+                    </a>
+                {% else %}
+                     <a href="../../private-chat/{{ i.id }}">{{ i.name }}</a>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
     <a href="../../myprofile">Profile</a>
-    <a href="/logout">Logout</a>
+    <a style="float:right" href="/logout">Logout</a>
     <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
