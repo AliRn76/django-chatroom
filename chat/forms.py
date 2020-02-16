@@ -104,6 +104,7 @@ class SendMessageModelForm(forms.ModelForm):
                 "placeholder": "Type your message",
                 "rows" : "3",
                 "dir" : "rtl",
+                "id" : "textarea",
             }
         )
     )
@@ -134,6 +135,7 @@ class SendMessagePVModelForm(forms.ModelForm):
                 "placeholder": "Type your message",
                 "rows" : "3",
                 "dir" : "rtl",
+                "id": "textarea",
             }
         )
     )

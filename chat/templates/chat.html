@@ -124,12 +124,22 @@
         <div class="chat-message clearfix">
             <form method="POST">{% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="Send">
+                <input id="send" type="submit" value="Send">
             </form>
         </div>
         <script>
             var element = document.getElementById("chat-history");
             element.scrollTop = element.scrollHeight;
+
+			function submitOnEnter(event){
+				if(event.which === 13 && !event.shiftKey){
+					var subkey = document.getElementById("send");
+					subkey.click();
+					event.preventDefault();
+				}
+			}
+			document.getElementById("textarea").addEventListener("keypress", submitOnEnter);
+
         </script>
     </body>
 </html>
