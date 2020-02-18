@@ -295,14 +295,6 @@ def chat_view(request, room_id):
             user_name_rooms.append(name2_rooms[0])  # pv name kasayi ke bahashon pv dari
 
         cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
-        # cursor2.execute('''select SUM(unread)
-        #                         FROM chat_room, chat_members, auth_user, chat_chat
-        #                         WHERE   NOT (user_id = ''' + str(request.user.id) + ''')
-        #                                 AND (chat_room.id = ''' + str(id) + ''')
-        #                                 AND (auth_user.id = chat_members.userid_id)
-        #                                 AND (chat_members.roomid_id = chat_room.id )
-        #                                 AND (chat_chat.roomid_id = chat_room.id)''')
-        cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
         cursor2.execute('''select DISTINCT SUM(unread)
                                 FROM (((chat_chat
                                     INNER JOIN chat_room    ON chat_chat.roomid_id = chat_room.id)
@@ -319,15 +311,16 @@ def chat_view(request, room_id):
         else:
             unreads.append(unread)  # List Az PV Ha Va Unread Hashon
 
+    sum_unreads = 0
     pv_list = []
     for i in range(len(user_name_rooms)):
         pv = PrivateChat(id=user_id_rooms[i], name=user_name_rooms[i], unread=unreads[i])  # har dafe ye instance az pv misaze
+        sum_unreads = sum_unreads + unreads[i]
         pv_list.append(pv)  # ye list az PV ha
-        # print(pv_list[i].id)
-        # print(pv_list[i].name)
 
     context = {
         "pv_list" : pv_list,
+        "sum_unreads" : sum_unreads,
         "tool_2" : tool_2,
         "obj" : obj ,
         "form" : form ,
