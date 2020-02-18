@@ -90,7 +90,7 @@ ul{
   border: none;
   padding: 10px 20px;
   font: 14px/22px "Lato", Arial, sans-serif;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   border-radius: 5px;
   resize: none;
   border:1px solid black;
@@ -168,22 +168,8 @@ ul{
 
 
 
-
-
-
-
-
-
-
-
-
-#upload_file
-{
-    display: none;
-}
-
-.chat .chat-message #image1 {
-  float: right;
+#id_image{
+  float: left;
   color: #00bfff;
   font-size: 16px;
   border-radius:10px;
@@ -192,42 +178,16 @@ ul{
   cursor: pointer;
   font-weight: bold;
   background: #F2F5F8;
-  top: 55%;
+  top: 74%;
+  left:0%;
   margin-left:2%;
   padding:5px;
   position: absolute;
 }
-.chat .chat-message #image1:hover {
-  color: #75b1e8;
-}
-
-
-
-.chat .chat-message #image2 {
-  float: right;
-  color: #00bfff;
-  font-size: 16px;
-  border-radius:10px;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  background: #F2F5F8;
-  top: 55%;
-  margin-left:8%;
-  padding:9px;
-  position: absolute;
-}
-.chat .chat-message #image2:hover {
-  color: #75b1e8;
-}
-
 
 @media screen and (max-width: 770px) {
 
-   .chat-message #image1{
-    display:none;
-   }
+
 }
 @media screen and (min-width: 770px) {
 

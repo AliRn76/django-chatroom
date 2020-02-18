@@ -108,13 +108,13 @@ class SendMessageModelForm(forms.ModelForm):
             }
         )
     )
-    # image = forms.ImageField(label='', required=False)
+    image = forms.ImageField(label='', required=False)
 
     class Meta:
         model = Chat
         fields = [
             'message',
-            # 'image',
+            'image',
         ]
 
     def clean_message(self):
