@@ -182,7 +182,7 @@ ul{
     display: none;
 }
 
-.chat .chat-message label1 {
+.chat .chat-message #image1 {
   float: right;
   color: #00bfff;
   font-size: 16px;
@@ -197,13 +197,13 @@ ul{
   padding:5px;
   position: absolute;
 }
-.chat .chat-message label1:hover {
+.chat .chat-message #image1:hover {
   color: #75b1e8;
 }
 
 
 
-.chat .chat-message label2 {
+.chat .chat-message #image2 {
   float: right;
   color: #00bfff;
   font-size: 16px;
@@ -218,20 +218,20 @@ ul{
   padding:9px;
   position: absolute;
 }
-.chat .chat-message label2:hover {
+.chat .chat-message #image2:hover {
   color: #75b1e8;
 }
 
 
 @media screen and (max-width: 770px) {
 
-   .chat-message label1{
+   .chat-message #image1{
     display:none;
    }
 }
 @media screen and (min-width: 770px) {
 
-   .chat-message label2{
+   .chat-message #image2{
     display:none;
    }
 }
