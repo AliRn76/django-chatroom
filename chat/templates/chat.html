@@ -72,7 +72,12 @@
                                 <div><a href="{{ i.get_url_edit }}">Edit</a></div>
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
+
                               <div class="message other-message float-right">
+                                <img src="{{ Chat.image.url}}">
+                                {% if i.image %}
+                                    <img src="{{ i.image.url }}" style="width: 100%;"/>
+                                {% endif%}
                                 {{ i.message }}
                               </div>
                             </li>
@@ -87,6 +92,9 @@
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
                               <div class="message other-message float-right" dir="rtl">
+                                {% if i.image %}
+                                    <img src="{{ i.image.url }}" style="width: 100%;"/>
+                                {% endif%}
                                 {{ i.message }}
                               </div>
                             </li>
@@ -123,9 +131,15 @@
             </div>
 
         <div class="chat-message clearfix">
-            <form method="POST">{% csrf_token %}
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
                 {{ form.as_p }}
                 <input id="send" type="submit" value="Send">
+<!--                <input for="upload_file" type="file" accept="image/*" name="image" value="Choose Image">-->
+
+                <label1 for="upload_file"><i class="fa fa-cloud-upload"></i> Choose Image</label1>
+                <label2 for="upload_file"><i class="fa fa-cloud-upload"></i></label2>
+                <input type="file" id="upload_file" name="image" accept="image/*" >
+
             </form>
         </div>
         <script>

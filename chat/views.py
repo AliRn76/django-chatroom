@@ -3,7 +3,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.utils.datetime_safe import datetime
 from django.db import connection
 from django.contrib.auth import logout
-from chat.models import Chat, Room, Members
+from .models import Chat, Room, Members
 from .forms import SingupForm, SendMessageModelForm, EditMessageModelForm, EditProfileForm, SendMessagePVModelForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -204,67 +204,29 @@ def singup_view(request):
 
 @login_required()
 def chat_view(request, room_id):
-    form = SendMessageModelForm(request.POST or None)
-    if form.is_valid():
-        '''
-        ## try to use ajax
-        response_data = {}
+    if request.method == "POST":
+        form = SendMessageModelForm(request.POST, request.FILES)
 
-        if request.POST.get('action') == 'post':
-            # object = form.save(commit=False)
-            # object.user = request.user
-            # object.datetime = datetime.now()
-            # object.save()
+        if form.is_valid():
+            object              = form.save(commit=False)
+            object.user         = request.user
+            object.datetime     = datetime.now()
+            object.roomid_id    = room_id
+            object.unread       = True
+            object.save()
 
-            message = form.cleaned_data.get("message")
-
-            response_data['user'] = request.user
-            response_data['datetime'] = datetime.now()
-            response_data['message'] = request.POST.get('id_message')
-
-            Chat.objects.create(user=request.user, message= message, datetime=datetime.now())
-            return JsonResponse(response_data)
-
-            # title = request.POST.get('title')
-            # description = request.POST.get('description')
-            #
-            # response_data['title'] = title
-            # response_data['description'] = description
-            #
-            # Post.objects.create(
-            #     title=title,
-            #     description=description,
-            # )
-            # return JsonResponse(response_data)
-
-        ## end try to use ajax
-'''
-
-
-        ### ravesh 2
-        object              = form.save(commit=False)
-        object.user         = request.user
-        object.datetime     = datetime.now()
-        object.roomid_id    = room_id
-        object.unread       = True
-        object.save()
-        ### end ravesh 2
-
-        ### ravesh 1
-        # message = form.cleaned_data.get("message")
-        # Chat.objects.create(user=request.user, message= message, datetime=datetime.now())
-        ### end ravesh 1
+        form = SendMessageModelForm()
+    else:
+        form = SendMessageModelForm()
 
     obj = Chat.objects.filter(roomid_id = room_id).order_by('datetime')
 
     for i in obj:
         i.time = i.datetime.time()
-
-    for i in obj:
-        i.firstChar = i.message[0]
-
-    form = SendMessageModelForm()
-
+        try:
+            i.firstChar = i.message[0]
+        except:
+            i.firstChar = ''
 
     cursor = connection.cursor()
     cursor.execute('''select chat_room.id 
@@ -289,6 +251,7 @@ def chat_view(request, room_id):
         name_rooms = cursor.fetchall()  # Username , Room Hayi ke Taraf Tooshe
         name1_rooms = name_rooms[0]
         name2_rooms = name_rooms[1]
+
         if name1_rooms[0] != request.user.username:
             user_name_rooms.append(name1_rooms[0])   # Username PV Ha i ke bahashon pv dari
         else:
@@ -326,6 +289,7 @@ def chat_view(request, room_id):
         "form" : form ,
         "user" : request.user,
     }
+
     return render(request, "chat.html", context)
 
 
@@ -334,12 +298,13 @@ def chat_view(request, room_id):
 @login_required()
 def chat_edit_view(request, msg_id, room_id):
     message = Chat.objects.get(roomid=room_id, id=msg_id, user=request.user.id)
+
     if message: # else error 404
         form = EditMessageModelForm(request.POST or None, instance=message)
-
-        if form.is_valid():
-            form.save()
-            return redirect("../")
+        if request.method == "POST":
+            if form.is_valid():
+                form.save()
+                return redirect("../")
 
         obj = Chat.objects.filter(roomid=room_id).order_by('datetime')
 
@@ -347,11 +312,67 @@ def chat_edit_view(request, msg_id, room_id):
             i.time = i.datetime.time()
 
         for i in obj:
-            i.firstChar = i.message[0]
+            try:
+                i.firstChar = i.message[0]
+            except:
+                i.firstChar = ''
 
-        # form = EditMessageModelForm() # in age bashe , text ghabli replace nmishe
+        cursor = connection.cursor()
+        cursor.execute('''select chat_room.id 
+                            FROM chat_room, chat_members, auth_user 
+                            WHERE (auth_user.id =''' + str(request.user.id) + ''') 
+                                    AND (auth_user.id = chat_members.userid_id)
+                                    AND (chat_members.roomid_id = chat_room.id )
+                                    AND (chat_room.PV = 1)''')
+        user_id_rooms = cursor.fetchall()  # room haye PV ke taraf tooshoone
+
+        user_id_rooms = [i[0] for i in user_id_rooms]
+
+        user_name_rooms = []
+        unreads = []
+        for id in user_id_rooms:
+            cursor = connection.cursor()
+            cursor.execute('''select auth_user.username
+                                FROM chat_room, chat_members, auth_user 
+                                WHERE (auth_user.id = chat_members.userid_id)
+                                        AND (chat_members.roomid_id = chat_room.id )
+                                        AND (chat_room.id = ''' + str(id) + ''')''')
+            name_rooms = cursor.fetchall()  # Username , Room Hayi ke Taraf Tooshe
+            name1_rooms = name_rooms[0]
+            name2_rooms = name_rooms[1]
+            if name1_rooms[0] != request.user.username:
+                user_name_rooms.append(name1_rooms[0])  # Username PV Ha i ke bahashon pv dari
+            else:
+                user_name_rooms.append(name2_rooms[0])  # pv name kasayi ke bahashon pv dari
+
+            cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
+            cursor2.execute('''select DISTINCT SUM(unread)
+                                    FROM (((chat_chat
+                                        INNER JOIN chat_room    ON chat_chat.roomid_id = chat_room.id)
+                                        INNER JOIN chat_members ON chat_members.roomid_id = chat_room.id)
+                                        INNER JOIN auth_user    ON chat_members.userid_id = auth_user.id)
+                                    WHERE   NOT (chat_chat.user_id = ''' + str(request.user.id) + ''')
+                                            AND (chat_room.id = ''' + str(id) + ''')
+                                            AND (chat_chat.user_id = auth_user.id)''')
+            temp_unreads = cursor2.fetchall()
+            unread = temp_unreads[0]
+            unread = unread[0]
+            if unread == None:
+                unreads.append(0)
+            else:
+                unreads.append(unread)  # List Az PV Ha Va Unread Hashon
+
+        sum_unreads = 0
+        pv_list = []
+        for i in range(len(user_name_rooms)):
+            pv = PrivateChat(id=user_id_rooms[i], name=user_name_rooms[i],
+                             unread=unreads[i])  # har dafe ye instance az pv misaze
+            sum_unreads = sum_unreads + unreads[i]
+            pv_list.append(pv)  # ye list az PV ha
 
         context = {
+            "pv_list": pv_list,
+            "sum_unreads": sum_unreads,
             "tool_2": tool_2,
             "obj": obj,
             "form": form,
@@ -593,20 +614,29 @@ def myprofile_edit_view(request):
 
 @login_required()
 def private_chat_view(request, pv_id):
-    form = SendMessagePVModelForm(request.POST or None)
-    if form.is_valid():
-        object          = form.save(commit=False)
-        object.user     = request.user
-        object.datetime = datetime.now()
-        object.roomid_id   = pv_id
-        object.unread       = True
-        object.save()
+    if request.method == "POST":
+        form = SendMessageModelForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            object              = form.save(commit=False)
+            object.user         = request.user
+            object.datetime     = datetime.now()
+            object.roomid_id    = pv_id
+            object.unread       = True
+            object.save()
+
+        form = SendMessageModelForm()
+    else:
+        form = SendMessageModelForm()
 
     obj = Chat.objects.filter(roomid_id=pv_id).order_by('datetime')
 
     for i in obj:
         i.time = i.datetime.time()
-        i.firstChar = i.message[0]
+        try:
+            i.firstChar = i.message[0]
+        except:
+            i.firstChar = ''
 
     cursor3 = connection.cursor()
     cursor3.execute('''Update chat_chat 
@@ -614,8 +644,6 @@ def private_chat_view(request, pv_id):
                             WHERE   NOT (user_id = ''' + str(request.user.id) + ''')
                                     AND (roomid_id =''' + str(pv_id) + ''')''')
 
-
-    form = SendMessageModelForm()
 
     cursor = connection.cursor()
     cursor.execute('''select chat_room.id 
@@ -639,18 +667,13 @@ def private_chat_view(request, pv_id):
                                     AND (chat_room.id = ''' + str(id) + ''')
                                     AND (chat_room.PV = 1)''')
         name_rooms = cursor.fetchall()
-        # print(name_rooms)
         name1_rooms = name_rooms[0]
         name2_rooms = name_rooms[1]
+
         if name1_rooms[0] != request.user.username:
-            # print(name1_rooms)
-            # print(request.user.username)
             user_name_rooms.append(name1_rooms[0])   # pv name kasayi ke bahashon pv dari
-            # print(user_name_rooms)
         else:
-            # print(name2_rooms)
             user_name_rooms.append(name2_rooms[0])  # pv name kasayi ke bahashon pv dari
-            # print(user_name_rooms)
 
         cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
         cursor2.execute('''select DISTINCT SUM(unread)
@@ -669,15 +692,18 @@ def private_chat_view(request, pv_id):
         else:
             unreads.append(unread)  # List Az PV Ha Va Unread Hashon
 
+    sum_unreads = 0
     pv_list = []
     for i in range(len(user_name_rooms)):
         pv = PrivateChat(id=user_id_rooms[i], name=user_name_rooms[i], unread=unreads[i])  # har dafe ye instance az pv misaze
+        sum_unreads = sum_unreads + unreads[i]
         pv_list.append(pv)  # ye list az PV ha
         # print(pv_list[i].id)
         # print(pv_list[i].name)
 
     context = {
         "pv_list": pv_list,
+        "sum_unreads": sum_unreads,
         "tool_2": tool_2,
         "obj": obj,
         "form": form,

@@ -101,6 +101,7 @@ ul{
   color: gray;
   cursor: pointer;
 }
+
 .chat .chat-message input {
   float: right;
   color: #00bfff;
@@ -111,7 +112,8 @@ ul{
   cursor: pointer;
   font-weight: bold;
   background: #F2F5F8;
-  top: 50%;
+  top: 35%;
+  padding:8px;
   margin-left:5%;
   margin-right:5%;
   position: absolute;
@@ -175,12 +177,64 @@ ul{
 
 
 
+#upload_file
+{
+    display: none;
+}
+
+.chat .chat-message label1 {
+  float: right;
+  color: #00bfff;
+  font-size: 16px;
+  border-radius:10px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #F2F5F8;
+  top: 55%;
+  margin-left:2%;
+  padding:5px;
+  position: absolute;
+}
+.chat .chat-message label1:hover {
+  color: #75b1e8;
+}
 
 
 
+.chat .chat-message label2 {
+  float: right;
+  color: #00bfff;
+  font-size: 16px;
+  border-radius:10px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #F2F5F8;
+  top: 55%;
+  margin-left:8%;
+  padding:9px;
+  position: absolute;
+}
+.chat .chat-message label2:hover {
+  color: #75b1e8;
+}
 
 
+@media screen and (max-width: 770px) {
 
+   .chat-message label1{
+    display:none;
+   }
+}
+@media screen and (min-width: 770px) {
+
+   .chat-message label2{
+    display:none;
+   }
+}
 
 
 

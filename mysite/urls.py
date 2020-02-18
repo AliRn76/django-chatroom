@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.views import LoginView
+from django.conf import settings
+from django.conf.urls.static import static
 from chat.views import main_view, \
     singup_view, \
     profile_view, \
@@ -42,8 +45,12 @@ urlpatterns = [
     path('myprofile/edit', myprofile_edit_view, name="myprofile-edit"),
     path('private-chat/<int:pv_id>', private_chat_view, name="private-chat"),
 
+
     # path('login/', login_view, name="login"),
     # path('profiles/', profiles_view, name="profiles"),
     # path('profile/<int:my_id>/edit', profile_edit_view, name="profile_edit"),
     # path('profile/<int:my_id>/delete/', profile_delete_view, name="profile_delete"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

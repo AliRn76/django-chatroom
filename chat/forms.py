@@ -99,7 +99,7 @@ class EditProfileForm(forms.Form):
 ####################################################################################
 
 class SendMessageModelForm(forms.ModelForm):
-    message = forms.CharField(label='', widget=forms.Textarea(
+    message = forms.CharField(label='', required=False, widget=forms.Textarea(
             attrs={
                 "placeholder": "Type your message",
                 "rows" : "3",
@@ -108,10 +108,13 @@ class SendMessageModelForm(forms.ModelForm):
             }
         )
     )
+    # image = forms.ImageField(label='', required=False)
+
     class Meta:
         model = Chat
         fields = [
             'message',
+            # 'image',
         ]
 
     def clean_message(self):
@@ -139,10 +142,14 @@ class SendMessagePVModelForm(forms.ModelForm):
             }
         )
     )
+
+    image = forms.ImageField(label='', required=False)
+
     class Meta:
         model = Chat
         fields = [
             'message',
+            'image',
         ]
 
 
