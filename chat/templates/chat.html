@@ -109,6 +109,9 @@
                               </div>
 
                               <div class="message my-message">
+                                {% if i.image %}
+                                    <img src="{{ i.image.url }}" style="width: 100%;"/>
+                                {% endif%}
                                 {{ i.message }}
                               </div>
                             </li>
@@ -120,6 +123,9 @@
                               </div>
 
                               <div class="message my-message" dir="rtl">
+                                {% if i.image %}
+                                    <img src="{{ i.image.url }}" style="width: 100%;"/>
+                                {% endif%}
                                 {{ i.message }}
                               </div>
                             </li>

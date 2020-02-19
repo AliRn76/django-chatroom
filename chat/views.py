@@ -217,7 +217,7 @@ def chat_view(request, room_id):
 
         form = SendMessageModelForm()
     else:
-        form = SendMessageModelForm()
+        form = SendMessageModelForm(request.FILES)
 
     obj = Chat.objects.filter(roomid_id = room_id).order_by('datetime')
 
@@ -627,7 +627,7 @@ def private_chat_view(request, pv_id):
 
         form = SendMessageModelForm()
     else:
-        form = SendMessageModelForm()
+        form = SendMessageModelForm(request.FILES)
 
     obj = Chat.objects.filter(roomid_id=pv_id).order_by('datetime')
 
