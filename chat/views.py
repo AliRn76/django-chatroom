@@ -157,6 +157,7 @@ def chat_view(request, room_id):
             object.roomid_id    = room_id
             object.unread       = True
             if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
+                print(request.user.username + " Send Message To PublicChat ---> " + form.cleaned_data.get("message"))
                 object.save()
 
         form = SendMessageModelForm()
@@ -382,6 +383,7 @@ def private_chat_view(request, pv_id):
             object.roomid_id    = pv_id
             object.unread       = True
             if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
+                print(request.user.username + " Send Message To " + pv_username + " ---> " + form.cleaned_data.get("message"))
                 object.save()
 
         form = SendMessageModelForm()
