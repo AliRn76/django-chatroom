@@ -283,15 +283,12 @@ def profile_view(request, user_username):
             break
 
     if not has_pv:              # Age Ghabln Ba Ham PV Naraafte Bashan
-        print("PV TA HALA NADASHTAN ")
         obj = Room.objects.create(membercount=2, pv=True)
         pv_id = obj.id          # New Room ID Baraye PV
         Members.objects.create(userid_id=request.user.id, roomid_id=pv_id)
         Members.objects.create(userid_id=user_id,         roomid_id=pv_id)
     else:
-        print("PV GHABLAN DASHTAN")
         pv_id = pv_id[0]        # Room ID Ke Ghabln Boode
-        print("PV ID : " + str(pv_id))
 
     context = {
             "sum_unreads": sum_unreads,

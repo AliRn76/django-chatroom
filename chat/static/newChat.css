@@ -25,12 +25,14 @@ ul{
 
 }
 .chat .chat-history {
-  height: 65%;
-
+padding-right:10px;
+margin-left:-35px;
 }
 
 .chat .chat-history .message-data {
   margin-bottom: 15px;
+
+
 }
 .chat .chat-history .message-data-time {
   color: #a8aab1;
@@ -62,11 +64,13 @@ ul{
   background: #86BB71;
     display: inline-block;
     max-width: 70%;
+
 }
 .chat .chat-history .other-message {
   background: #94C2ED;
-  max-width: 50%;
+  max-width: 60%;
   display: inline-block;
+
 }
 .chat .chat-history .other-message:after {
   border-bottom-color: #94C2ED;
@@ -109,9 +113,9 @@ ul{
   cursor: pointer;
   font-weight: bold;
   background: #F2F5F8;
-  top: 25%;
+  top: 18%;
   padding:8px;
-  margin-left:5%;
+  margin-left:1%;
   margin-right:5%;
   position: absolute;
 }
