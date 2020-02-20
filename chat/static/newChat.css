@@ -25,9 +25,6 @@ ul{
 
 }
 .chat .chat-history {
-  padding: 30px 30px 20px;
-
-
   height: 65%;
 
 }
@@ -76,8 +73,8 @@ ul{
   left: calc(100% - 20px);
 }
 .chat .chat-message {
-
-    padding:30px;
+    padding-left:10px;
+    padding-bottom:15px;
     width: 99%;
      position: fixed;
      bottom: 0;
@@ -112,7 +109,7 @@ ul{
   cursor: pointer;
   font-weight: bold;
   background: #F2F5F8;
-  top: 35%;
+  top: 25%;
   padding:8px;
   margin-left:5%;
   margin-right:5%;
@@ -169,17 +166,18 @@ ul{
 
 
 #id_image{
+
   float: left;
   color: #00bfff;
-  font-size: 16px;
+  font-size: 12px;
   border-radius:10px;
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  font-weight: bold;
   background: #F2F5F8;
-  top: 74%;
-  left:0%;
+
+  top: 65%;
+  left: -5px;
   margin-left:2%;
   padding:5px;
   position: absolute;

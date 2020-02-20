@@ -102,7 +102,7 @@ class SendMessageModelForm(forms.ModelForm):
     message = forms.CharField(label='', required=False, widget=forms.Textarea(
             attrs={
                 "placeholder": "Type your message",
-                "rows" : "3",
+                "rows" : "1",
                 "dir" : "rtl",
                 "id" : "textarea",
             }
@@ -136,7 +136,7 @@ class SendMessagePVModelForm(forms.ModelForm):
     message = forms.CharField(label='', widget=forms.Textarea(
             attrs={
                 "placeholder": "Type your message",
-                "rows" : "3",
+                "rows" : "1",
                 "dir" : "rtl",
                 "id": "textarea",
             }
@@ -158,7 +158,7 @@ class SendMessagePVModelForm(forms.ModelForm):
 class EditMessageModelForm(forms.ModelForm):
     message = forms.CharField(label='', widget=forms.Textarea(
             attrs={
-                "rows": "3",
+                "rows": "1",
                 "placeholder": "Type your message",
                 "dir": "rtl",
             }
