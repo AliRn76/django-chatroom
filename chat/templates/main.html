@@ -16,22 +16,29 @@
 <div class="topnav" id="myTopnav">
 
         <a href="/chat/1" class="active">Public Chat</a>
-        <div class="dropdown">
-            <button class="dropbtn">Private Chats
-              <i class="fa fa-caret-down"></i>
-            </button>
-            <div class="dropdown-content">
-                {% for i in pv_list %}
-                    {% if i.unread %}
-                        <a href="../../private-chat/{{ i.id }}" class="notification">
-                            <span>{{ i.name }}</span>
-                            <span class="badge">{{i.unread}}</span>
-                        </a>
-                    {% else %}
-                        <a href="../../private-chat/{{ i.id }}">{{ i.name }}</a>
-                    {% endif %}
-                {% endfor %}
-            </div>
+        <div class="dropdown notificationDropdown">
+            <span>
+                <button class="dropbtn">Private Chats
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    {% for i in pv_list %}
+                        {% if i.unread %}
+                            <a href="../../private-chat/{{ i.id }}" class="notification">
+                                <span>{{ i.name }}</span>
+                                <span class="badge">{{i.unread}}</span>
+                            </a>
+                        {% else %}
+                             <a href="../../private-chat/{{ i.id }}">{{ i.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </span>
+            {% if sum_unreads %}
+                <span class="badgeDropdown">{{sum_unreads}}</span>
+            {% else %}
+                <span class="badgeDropdown"></span>
+            {% endif %}
         </div>
         <a href="/myprofile">Profile</a>
         <a style="float:right" href="/logout/">Logout</a>

@@ -27,11 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-LOGIN_URL = "../../admin/login/?next=../../"
+LOGIN_URL = "../"
 
 LOGIN_REDIRECT_URL = 'main'
 
-# LOGIN_REDIRECT_URL = '../'
 
 # Application definition
 
