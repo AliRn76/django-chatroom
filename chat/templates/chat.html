@@ -101,8 +101,8 @@
             </form>
         </div>
         <script>
-            var element = document.getElementById("chat-history");
-            element.scrollTop = element.scrollHeight;
+            var div = document.getElementById("chat-history");
+            div.scrollTop = div.scrollHeight - div.clientHeight;
 
 			function submitOnEnter(event){
 				if(event.which === 13 && !event.shiftKey){
