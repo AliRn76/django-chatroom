@@ -1,48 +1,5 @@
-<!--<html>-->
-<!--    <header>-->
-<!--        <title>Chat</title>-->
-<!--        {% load static %}-->
-<!--        <link rel="stylesheet" type="text/css" href="{% static 'chatStyle.css' %}">-->
 
-<!--        <link rel="stylesheet" type="text/css" href="{% static 'navbar.css' %}">-->
-<!---->
-<!--    </header>-->
-<!--    <body class="container">-->
-
-<!--    <div style="height:100px"></div>-->
-<!--        {% for i in obj %}-->
-<!--            {% if user == i.user %}-->
-<!--                <div class="bubbleWrapper">-->
-<!--                    <div class="inlineContainer own">-->
-<!--                        <p>{{i.user}}</p>-->
-<!--                        <div class="ownBubble own">-->
-<!--                         {{ i.message }}-->
-<!--                        </div>-->
-<!--                    </div><span class="own">{{ i.datetime }}</span>-->
-<!--                </div>-->
-<!--            {% else %}-->
-<!--                <div class="bubbleWrapper">-->
-<!--                    <div class="inlineContainer">-->
-<!--                        <p>{{i.user}}</p>-->
-<!--                        <div class="otherBubble other">-->
-<!--                            {{ i.message }}-->
-<!--                        </div>-->
-<!--                    </div><span class="other">{{ i.datetime }}</span>-->
-<!--                </div>-->
-<!--            {% endif %}-->
-<!--        {% endfor %}-->
-
-<!--        <div style="width:100% ; height:100px">-->
-<!--            <form method="POST">{% csrf_token %}-->
-<!--                {{ form.as_p }}-->
-<!--            <input type="submit" value="save">-->
-<!--        </div>-->
-
-<!--    </body>-->
-<!--</html>-->
-
-
-
+{% load static %}
 <html>
     <header>
         <link rel="stylesheet" type="text/css" href="{% static 'newChat.css' %}">

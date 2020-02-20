@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from django.utils.datetime_safe import datetime
 from django.db import connection
@@ -153,7 +153,7 @@ def chat_view(request, room_id):
             object.datetime     = datetime.now()
             object.roomid_id    = room_id
             object.unread       = True
-            if form.cleaned_data.get("message") != '' and form.cleaned_data.get("image") != None:
+            if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
                 object.save()
 
         form = SendMessageModelForm()
@@ -188,56 +188,70 @@ def chat_view(request, room_id):
 
 @login_required()
 def chat_edit_view(request, msg_id, room_id):
-    message = Chat.objects.get(roomid=room_id, id=msg_id, user=request.user.id)
+    try:
+        message = Chat.objects.get(id=msg_id, roomid=room_id)
 
-    if message: # else error 404
-        form = EditMessageModelForm(request.POST or None, instance=message)
-        if request.method == "POST":
-            if form.is_valid():
-                if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") == None):
-                    form.save()
-                return redirect("../")
+    except Chat.DoesNotExist:
+        return render(request, 'error404.html')
 
-        obj = Chat.objects.filter(roomid=room_id).order_by('datetime')
+    if request.method == "POST":
+        form = EditMessageModelForm(request.POST, instance=message)
 
-        for i in obj:
-            i.time = i.datetime.time()
-            try:
-                i.firstChar = i.message[0]
-            except:
-                i.firstChar = ''
+        if form.is_valid():
+            if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
+                form.save()
 
-        pv_list = Navbar.pv_list(request)
-        sum_unreads = Navbar.sum_unreads(pv_list)
+            return redirect("../")
+    else:
+        form = EditMessageModelForm(instance=message)
 
-        context = {
-            "obj": obj,
-            "form": form,
-            "tool_2": tool_2,
-            "pv_list": pv_list,
-            "user": request.user,
-            "sum_unreads": sum_unreads,
-        }
+    obj = Chat.objects.filter(roomid=room_id).order_by('datetime')
 
-        return render(request, "chat.html", context)
+    for i in obj:
+        i.time = i.datetime.time()
+        try:
+            i.firstChar = i.message[0]
+        except:
+            i.firstChar = ''
+
+    pv_list = Navbar.pv_list(request)
+    sum_unreads = Navbar.sum_unreads(pv_list)
+
+    context = {
+        "obj": obj,
+        "form": form,
+        "tool_2": tool_2,
+        "pv_list": pv_list,
+        "user": request.user,
+        "sum_unreads": sum_unreads,
+    }
+
+    return render(request, "chat.html", context)
 
 
 ####################################################################################
 
 @login_required()
 def chat_delete_view(request, msg_id, room_id):
-    obj = Chat.objects.get(roomid=room_id, id=msg_id, user=request.user.id)
-    if obj: # else error 404
-        obj.delete()
-        render(request, "chat-delete.html")
-        return redirect("../")
+    try:
+        obj = Chat.objects.get(id=msg_id, roomid=room_id)
+
+    except Chat.DoesNotExist:
+        return render(request, 'error404.html')
+
+    obj.delete()
+    render(request, "chat-delete.html")
+    return redirect("../")
 
 ####################################################################################
 
 @login_required()
 def profile_view(request, user_username):
-    user_id = User.objects.get(username=user_username).id
+    try:
+        user_id = User.objects.get(username=user_username).id
 
+    except User.DoesNotExist:
+        return render(request, 'error404.html')
 
     object = User.objects.get(id=user_id)
 
