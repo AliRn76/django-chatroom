@@ -95,6 +95,7 @@ class Navbar:
 
 def main_view(request):
     try:
+        print("Hello " + request.user.username)
         pv_list = Navbar.pv_list(request)
         sum_unreads = Navbar.sum_unreads(pv_list)
 
@@ -113,6 +114,7 @@ def main_view(request):
 ####################################################################################
 
 def logout_view(request):
+    print("Bye " + request.user.username)
     logout(request)
     return redirect("../")
 
@@ -144,6 +146,7 @@ def singup_view(request):
 
 @login_required()
 def chat_view(request, room_id):
+    print(request.user.username + " Visited PublicChat ")
     if request.method == "POST":
         form = SendMessageModelForm(request.POST, request.FILES)
 
@@ -194,11 +197,13 @@ def chat_edit_view(request, msg_id, room_id):
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
 
+    print(request.user.username + " Trying To Edit " + message)
     if request.method == "POST":
         form = EditMessageModelForm(request.POST, instance=message)
 
         if form.is_valid():
             if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
+                print(request.user.username + " Edited " + message + " ---> " + form.cleaned_data.get("message"))
                 form.save()
 
             return redirect("../")
@@ -234,13 +239,13 @@ def chat_edit_view(request, msg_id, room_id):
 @login_required()
 def chat_delete_view(request, msg_id, room_id):
     try:
-        obj = Chat.objects.get(id=msg_id, roomid=room_id)
+        message = Chat.objects.get(id=msg_id, roomid=room_id)
 
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
 
-    obj.delete()
-    render(request, "chat-delete.html")
+    print(request.user.username + " Deleted " + message)
+    message.delete()
     return redirect("../")
 
 ####################################################################################
@@ -253,6 +258,7 @@ def profile_view(request, user_username):
     except User.DoesNotExist:
         return render(request, 'error404.html')
 
+    print(request.user.username + " Visited " + user_username + " Profile")
     object = User.objects.get(id=user_id)
 
     pv_list = Navbar.pv_list(request)
@@ -296,6 +302,7 @@ def profile_view(request, user_username):
 
 @login_required()
 def myprofile_view(request):
+    print(request.user.username + " Checked His Profile")
     object = User.objects.get(id=request.user.id)
 
     pv_list = Navbar.pv_list(request)
@@ -314,7 +321,7 @@ def myprofile_view(request):
 @login_required()
 def myprofile_edit_view(request):
     obj = User.objects.get(id=request.user.id)
-
+    lastobj = obj
     if request.method == "POST":
         form = EditProfileForm(request.POST)
 
@@ -324,6 +331,9 @@ def myprofile_edit_view(request):
             obj.username = form.cleaned_data.get("username")
             obj.email = form.cleaned_data.get("email")
             obj.save()
+            print(request.user.username + " Change His Profile From " +
+                  lastobj.first_name + " " + lastobj.last_name  + " " + lastobj.username + " " + lastobj.email + " ---> " +
+                  obj.first_name     + " " + obj.last_name      + " " + obj.username     + " " + obj.email)
             return redirect(".")
 
     else:
@@ -345,6 +355,23 @@ def myprofile_edit_view(request):
 
 @login_required()
 def private_chat_view(request, pv_id):
+    cursor = connection.cursor()
+    cursor.execute('''select auth_user.username
+                            FROM chat_room, chat_members, auth_user 
+                            WHERE (auth_user.id = chat_members.userid_id)
+                                    AND (chat_members.roomid_id = chat_room.id )
+                                    AND (chat_room.id = ''' + str(pv_id) + ''')''')
+    name_rooms = cursor.fetchall()   # Username , Room Hayi ke Taraf Tooshe
+    name1_rooms = name_rooms[0]      # Name e Nafar Avale Too PV
+    name2_rooms = name_rooms[1]      # Name e Nafar Dovom Too PV
+
+    if name1_rooms[0] != request.user.username:     # Age Nafar Aval Too PV Khodam Naboodam
+        pv_username = name1_rooms[0]      # List Az Name PV Hayi Ke Dari
+    else:
+        pv_username = name2_rooms[0]      # List Az Name PV Hayi Ke Dari
+
+    print(request.user.username + " Trying To Send PV Message To " + pv_username )
+
     if request.method == "POST":
         form = SendMessageModelForm(request.POST, request.FILES)
 
