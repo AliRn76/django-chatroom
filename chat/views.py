@@ -245,7 +245,7 @@ def chat_delete_view(request, msg_id, room_id):
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
 
-    print(request.user.username + " Deleted " + message)
+    print(request.user.username + " Deleted " + str(message))
     message.delete()
     return redirect("../")
 

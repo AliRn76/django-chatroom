@@ -29,14 +29,16 @@
                                 <div><a href="{{ i.get_url_edit }}">Edit</a></div>
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
-
-                              <div class="message other-message float-right">
-                                <img src="{{ Chat.image.url}}">
                                 {% if i.image %}
+                                  <div class="message other-message float-right" style="padding:5px">
                                     <img src="{{ i.image.url }}" style="width: 100%;"/>
-                                {% endif%}
+                                    {{ i.message }}
+                                  </div>
+                                {% else %}
+                                    <div class="message other-message float-right">
                                 {{ i.message }}
-                              </div>
+                                    </div>
+                                {% endif%}
                             </li>
                         {% else %}
                             <li id={{ forloop.counter }} class="clearfix">
@@ -48,12 +50,16 @@
                                 <div><a href="{{ i.get_url_edit }}">Edit</a></div>
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
-                              <div class="message other-message float-right" dir="rtl">
-                                {% if i.image %}
+                              {% if i.image %}
+                                  <div class="message other-message float-right" style="padding:5px">
                                     <img src="{{ i.image.url }}" style="width: 100%;"/>
-                                {% endif%}
+                                    {{ i.message }}
+                                  </div>
+                                {% else %}
+                                    <div class="message other-message float-right">
                                 {{ i.message }}
-                              </div>
+                                    </div>
+                                {% endif%}
                             </li>
                         {% endif %}
                     {% else %}
@@ -64,13 +70,16 @@
                                   <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
-
-                              <div class="message my-message">
                                 {% if i.image %}
+                                  <div class="message my-message" style="padding:5px">
                                     <img src="{{ i.image.url }}" style="width: 100%;"/>
-                                {% endif%}
+                                    {{ i.message }}
+                                  </div>
+                                {% else %}
+                                    <div class="message my-message">
                                 {{ i.message }}
-                              </div>
+                                    </div>
+                                {% endif%}
                             </li>
                         {% else %}
                             <li id={{ forloop.counter }}>
@@ -78,13 +87,16 @@
                                 <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
-
-                              <div class="message my-message" dir="rtl">
                                 {% if i.image %}
+                                  <div class="message my-message" style="padding:5px">
                                     <img src="{{ i.image.url }}" style="width: 100%;"/>
-                                {% endif%}
+                                    {{ i.message }}
+                                  </div>
+                                {% else %}
+                                    <div class="message my-message">
                                 {{ i.message }}
-                              </div>
+                                    </div>
+                                {% endif%}
                             </li>
                         {% endif %}
                     {% endif %}
