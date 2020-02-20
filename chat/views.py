@@ -15,58 +15,8 @@ class PrivateChat:
         self.name = name
         self.unread = unread
 
-'''
-def login_view(request):
-    form = LoginForm()
-    if request.method == "POST":
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            try:
-                obj = Profile.objects.get(username=username)
-                if obj.password == password:
-                    print("hame chi ok e")
-                    return redirect("../../../profiles")
-
-                else:
-                    print("password wrong bood")
-            except:                                                    #error 404 ham mitone bede
-                print("asan in user nadarim")
-    context = {
-        'form' : form
-    }
-    return render(request, "login.html", context)
-
 
 ####################################################################################
-def profile_edit_view(request, my_id):
-    obj = Profile.objects.get(id=my_id)
-    # print("my_id: " + str(my_id))
-    form = ProfileForm(request.POST or None, instance=obj)
-    if form.is_valid():
-        form.save()
-        form = ProfileForm()
-    context = {
-        'form' : form,
-    }
-    print(request.user)
-    return render(request, "enterProfile.html", context)
-
-
-###################################################
-
-def profile_delete_view(request, my_id):
-    obj = Profile.objects.get(id=my_id)
-    if request.method == "POST":
-        obj.delete()
-        return redirect("../../../profiles")
-    context = {
-        "object" : obj
-    }
-    return render(request, "delete.html", context)
-
-'''
 
 ####################################################################################
 
@@ -100,14 +50,6 @@ def main_view(request):
             else:
                 user_name_rooms.append(name2_rooms[0])  # pv name kasayi ke bahashon pv dari
 
-            cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
-            # cursor2.execute('''select SUM(unread)
-            #                         FROM chat_room, chat_members, auth_user, chat_chat
-            #                         WHERE   NOT (user_id = ''' + str(request.user.id) + ''')
-            #                                 AND (chat_room.id = ''' + str(id) + ''')
-            #                                 AND (auth_user.id = chat_members.userid_id)
-            #                                 AND (chat_members.roomid_id = chat_room.id )
-            #                                 AND (chat_chat.roomid_id = chat_room.id)''')
             cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
             cursor2.execute('''select DISTINCT SUM(unread)
                                         FROM (((chat_chat
@@ -143,32 +85,6 @@ def main_view(request):
         }
         return render(request, "login.html", context)
     return render(request, "main.html",context)
-
-####################################################################################
-
-# def login_view(request):
-#     print("ok")
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         post = User.objects.filter(username=username)
-#         if post:
-#             username = request.POST['username']
-#             request.session['username'] = username
-#             return redirect("../")
-#         else:
-#             return render(request, 'login.html', {})
-#
-#     return render(request, "login.html",{})
-#
-
-# def profile(request):
-#     if request.session.has_key('username'):
-#         posts = request.session['username']
-#         query = User.objects.filter(username=posts)
-#         return render(request, 'app_foldername / profile.html', {"query":query})
-#     else:
-#         return render(request, 'app_foldername/login.html', {})
 
 ####################################################################################
 
@@ -213,7 +129,8 @@ def chat_view(request, room_id):
             object.datetime     = datetime.now()
             object.roomid_id    = room_id
             object.unread       = True
-            object.save()
+            if not ( form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") == None ):
+                object.save()
 
         form = SendMessageModelForm()
     else:
@@ -303,7 +220,8 @@ def chat_edit_view(request, msg_id, room_id):
         form = EditMessageModelForm(request.POST or None, instance=message)
         if request.method == "POST":
             if form.is_valid():
-                form.save()
+                if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") == None):
+                    form.save()
                 return redirect("../")
 
         obj = Chat.objects.filter(roomid=room_id).order_by('datetime')
@@ -492,16 +410,16 @@ def profile_view(request, user_username):
             unreads.append(0)
         else:
             unreads.append(unread)  # List Az PV Ha Va Unread Hashon
-
+    sum_unreads = 0
     pv_list = []
     for i in range(len(user_name_rooms)):
         pv = PrivateChat(id=user_id_rooms[i], name=user_name_rooms[i], unread=unreads[i])  # har dafe ye instance az pv misaze
         pv_list.append(pv)  # ye list az PV ha
-        # print(pv_list[i].id)
-        # print(pv_list[i].name)
+        sum_unreads = sum_unreads + unreads[i]
+
 
     context = {
-
+        "sum_unreads": sum_unreads,
         "pv_list" : pv_list,
         "pv_id" : pv_id,
         "obj" : object
@@ -537,23 +455,18 @@ def myprofile_view(request):
                                     AND (chat_room.id = ''' + str(id) + ''')
                                     AND (chat_room.PV = 1)''')
         name_rooms = cursor.fetchall()
-        # print(name_rooms)
         name1_rooms = name_rooms[0]
         name2_rooms = name_rooms[1]
-        print(1)
-        if name1_rooms[0] != request.user.username:
-            # print(name1_rooms)
-            # print(request.user.username)
-            user_name_rooms.append(name1_rooms[0])  # pv name kasayi ke bahashon pv dari
-            # print(user_name_rooms)
-            print(2)
-        else:
-            print(3)
-            # print(name2_rooms)
-            user_name_rooms.append(name2_rooms[0])  # pv name kasayi ke bahashon pv dari
-            # print(user_name_rooms)
 
-        cursor2 = connection.cursor()  # Tedad Unread Ha Ro Mikhad Hesab Kone
+        if name1_rooms[0] != request.user.username:
+            # pv name kasayi ke bahashon pv dari
+            user_name_rooms.append(name1_rooms[0])
+        else:
+            # pv name kasayi ke bahashon pv dari
+            user_name_rooms.append(name2_rooms[0])
+
+        # Tedad Unread Ha Ro Mikhad Hesab Kone
+        cursor2 = connection.cursor()
         cursor2.execute('''select DISTINCT SUM(unread)
                                           FROM (((chat_chat
                                               INNER JOIN chat_room    ON chat_chat.roomid_id = chat_room.id)
@@ -568,15 +481,21 @@ def myprofile_view(request):
         if unread == None:
             unreads.append(0)
         else:
-            unreads.append(unread)  # List Az PV Ha Va Unread Hashon
+            # List Az PV Ha Va Unread Hashon
+            unreads.append(unread)
+
+    sum_unreads = 0
     pv_list = []
     for i in range(len(user_name_rooms)):
-        print(4)
-        pv = PrivateChat(id=user_id_rooms[i], name=user_name_rooms[i], unread=unreads[i])  # har dafe ye instance az pv misaze
-        pv_list.append(pv)  # ye list az PV ha
+        # har dafe ye instance az pv misaze
+        pv = PrivateChat(id=user_id_rooms[i], name=user_name_rooms[i], unread=unreads[i])
+        sum_unreads = sum_unreads + unreads[i]
+        # ye list az PV ha
+        pv_list.append(pv)
 
     context = {
         "pv_list": pv_list,
+        "sum_unreads": sum_unreads,
         "obj" : object
     }
     return render(request, "myprofile.html", context)
@@ -623,7 +542,8 @@ def private_chat_view(request, pv_id):
             object.datetime     = datetime.now()
             object.roomid_id    = pv_id
             object.unread       = True
-            object.save()
+            if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") == None):
+                object.save()
 
         form = SendMessageModelForm()
     else:

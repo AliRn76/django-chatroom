@@ -185,16 +185,7 @@ ul{
   position: absolute;
 }
 
-@media screen and (max-width: 770px) {
 
-
-}
-@media screen and (min-width: 770px) {
-
-   .chat-message #image2{
-    display:none;
-   }
-}
 
 
 
