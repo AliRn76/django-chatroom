@@ -255,11 +255,11 @@ def chat_delete_view(request, msg_id, room_id):
 def profile_view(request, user_username):
     try:
         user_id = User.objects.get(username=user_username).id
-
     except User.DoesNotExist:
         return render(request, 'error404.html')
 
     print(request.user.username + " Visited " + user_username + " Profile")
+
     object = User.objects.get(id=user_id)
 
     pv_list = Navbar.pv_list(request)
@@ -268,7 +268,7 @@ def profile_view(request, user_username):
     cursor = connection.cursor()
     cursor.execute('''select chat_room.id 
                             FROM chat_room, chat_members, auth_user 
-                            WHERE (auth_user.id =''' + str(request.user.id) + ''') 
+                            WHERE (auth_user.id =''' + str(user_id) + ''') 
                                     AND (auth_user.id = chat_members.userid_id)
                                     AND (chat_members.roomid_id = chat_room.id )
                                     AND (chat_room.PV = 1)''')
@@ -283,12 +283,15 @@ def profile_view(request, user_username):
             break
 
     if not has_pv:              # Age Ghabln Ba Ham PV Naraafte Bashan
+        print("PV TA HALA NADASHTAN ")
         obj = Room.objects.create(membercount=2, pv=True)
         pv_id = obj.id          # New Room ID Baraye PV
         Members.objects.create(userid_id=request.user.id, roomid_id=pv_id)
         Members.objects.create(userid_id=user_id,         roomid_id=pv_id)
     else:
+        print("PV GHABLAN DASHTAN")
         pv_id = pv_id[0]        # Room ID Ke Ghabln Boode
+        print("PV ID : " + str(pv_id))
 
     context = {
             "sum_unreads": sum_unreads,
