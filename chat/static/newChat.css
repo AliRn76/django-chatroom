@@ -63,12 +63,12 @@ margin-left:-35px;
 .chat .chat-history .my-message {
   background: #86BB71;
     display: inline-block;
-    max-width: 70%;
+    max-width: 90%;
 
 }
 .chat .chat-history .other-message {
   background: #94C2ED;
-  max-width: 60%;
+  max-width: 80%;
   display: inline-block;
 
 }
