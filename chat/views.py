@@ -268,7 +268,7 @@ def profile_view(request, user_username):
     cursor = connection.cursor()
     cursor.execute('''select chat_room.id 
                             FROM chat_room, chat_members, auth_user 
-                            WHERE (auth_user.id =''' + str(user_id) + ''') 
+                            WHERE (auth_user.id =''' + str(request.user.id) + ''') 
                                     AND (auth_user.id = chat_members.userid_id)
                                     AND (chat_members.roomid_id = chat_room.id )
                                     AND (chat_room.PV = 1)''')
