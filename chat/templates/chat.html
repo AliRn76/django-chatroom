@@ -51,12 +51,12 @@
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
                               {% if i.image %}
-                                  <div class="message other-message float-right" style="padding:5px">
+                                  <div class="message other-message float-right" dir="rtl" style="padding:5px">
                                     <img src="{{ i.image.url }}" style="width: 100%; max-height: 500px;"/>
                                     {{ i.message }}
                                   </div>
                                 {% else %}
-                                    <div class="message other-message float-right">
+                                    <div class="message other-message float-right" dir="rtl">
                                 {{ i.message }}
                                     </div>
                                 {% endif%}
@@ -88,12 +88,12 @@
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
                                 {% if i.image %}
-                                  <div class="message my-message" style="padding:5px">
+                                  <div class="message my-message" dir="rtl" style="padding:5px">
                                     <img src="{{ i.image.url }}" style="width: 100%; max-height: 500px"/>
                                     {{ i.message }}
                                   </div>
                                 {% else %}
-                                    <div class="message my-message">
+                                    <div class="message my-message" dir="rtl">
                                 {{ i.message }}
                                     </div>
                                 {% endif%}
