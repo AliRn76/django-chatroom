@@ -198,14 +198,13 @@ def chat_edit_view(request, msg_id, room_id):
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
 
-    print(request.user.username + " Trying To Edit " + message)
+    print(request.user.username + " Trying To Edit " + str(message))
     if request.method == "POST":
         form = EditMessageModelForm(request.POST, instance=message)
 
         if form.is_valid():
-            if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
-                print(request.user.username + " Edited " + message + " ---> " + form.cleaned_data.get("message"))
-                form.save()
+            print(request.user.username + " Edited " + str(message) + " ---> " + form.cleaned_data.get("message"))
+            form.save()
 
             return redirect("../")
     else:
