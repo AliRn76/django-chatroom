@@ -9,9 +9,9 @@ from .tools import tool_1
 ####################################################################################
 
 class SingupForm(forms.Form):
-    name = forms.CharField(widget=forms.TextInput(
+    name = forms.CharField(label="First Name",widget=forms.TextInput(
             attrs={
-                "placeholder": "Your Name",
+                "placeholder": "Your First Name",
                 "rows": "1",
                 "blank": "False"
             }
@@ -27,14 +27,14 @@ class SingupForm(forms.Form):
     )
     username = forms.CharField(widget=forms.TextInput(
             attrs={
-                "placeholder": "Your Name",
+                "placeholder": "Your Username",
                 "rows": "1",
             }
         )
     )
     password = forms.CharField(widget=forms.TextInput(
             attrs={
-                "placeholder": "Your Name",
+                "placeholder": "Your Password",
                 "rows": "1",
                 "type" : "password",
             }
