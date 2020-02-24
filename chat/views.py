@@ -267,20 +267,30 @@ def profile_view(request, user_username):
 
     cursor = connection.cursor()
     cursor.execute('''select chat_room.id 
-                            FROM chat_room, chat_members, auth_user 
-                            WHERE (auth_user.id =''' + str(request.user.id) + ''') 
-                                    AND (auth_user.id = chat_members.userid_id)
-                                    AND (chat_members.roomid_id = chat_room.id )
-                                    AND (chat_room.PV = 1)''')
-    user_rooms_id = cursor.fetchall()  # ID Room Hayi Ke User Tooshe
+                        FROM chat_room, chat_members, auth_user 
+                        WHERE ((auth_user.id =''' + str(user_id) + ''') 
+                                AND auth_user.id = chat_members.userid_id)
+                                AND (chat_members.roomid_id = chat_room.id )
+                                AND (chat_room.PV = 1)''')
+    user_rooms_id = cursor.fetchall()  # ID Room Hayi Ke Taraf Tooshe
+
+
+    cursor.execute('''select chat_room.id 
+                        FROM chat_room, chat_members, auth_user 
+                        WHERE ((auth_user.id =''' + str(request.user.id) + ''') 
+                                AND auth_user.id = chat_members.userid_id)
+                                AND (chat_members.roomid_id = chat_room.id )
+                                AND (chat_room.PV = 1)''')
+    my_rooms_id = cursor.fetchall() # ID Room Hayi Ke Ma Toosh Hastim
 
     has_pv = False
 
     for room_id in user_rooms_id:
-        if room_id in user_rooms_id:
+        if room_id in my_rooms_id:
             has_pv = True
             pv_id = room_id
             break
+
 
     if not has_pv:              # Age Ghabln Ba Ham PV Naraafte Bashan
         obj = Room.objects.create(membercount=2, pv=True)
