@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     #own
     'chat',
+    'game',
 
 ]
 
@@ -127,7 +128,7 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/chat/static/'
+STATIC_URL = '/static/'
 
 MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

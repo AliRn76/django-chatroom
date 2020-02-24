@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.contrib.auth.views import LoginView
 from django.conf import settings
 from django.conf.urls.static import static
+
 from chat.views import main_view, \
     singup_view, \
     profile_view, \
@@ -26,6 +27,8 @@ from chat.views import main_view, \
     myprofile_view ,\
     myprofile_edit_view, \
     logout_view
+
+
     # login_view, \
     # profiles_view, \
     # profile_edit_view, \
@@ -35,6 +38,7 @@ from chat.views import main_view, \
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include("chat.urls")),
+    path('game/', include("game.urls")),
 
     path('', main_view, name="main"),
     path('login/', LoginView.as_view(template_name='login.html'), name="login"),
