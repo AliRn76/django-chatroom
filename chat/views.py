@@ -198,41 +198,44 @@ def chat_edit_view(request, msg_id, room_id):
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
 
-    print(request.user.username + " Trying To Edit " + str(message))
-    if request.method == "POST":
-        form = EditMessageModelForm(request.POST, instance=message)
+    if request.user == message.user:
+        print(request.user.username + " Trying To Edit " + str(message))
+        if request.method == "POST":
+            form = EditMessageModelForm(request.POST, instance=message)
 
-        if form.is_valid():
-            print(request.user.username + " Edited " + str(message) + " ---> " + form.cleaned_data.get("message"))
-            form.save()
+            if form.is_valid():
+                print(request.user.username + " Edited " + str(message) + " ---> " + form.cleaned_data.get("message"))
+                form.save()
 
-            return redirect("../")
+                return redirect("../")
+        else:
+            form = EditMessageModelForm(instance=message)
+
+        obj = Chat.objects.filter(roomid=room_id).order_by('datetime')
+
+        for i in obj:
+            i.time = i.datetime.time()
+            try:
+                i.firstChar = i.message[0]
+            except:
+                i.firstChar = ''
+
+        pv_list = Navbar.pv_list(request)
+        sum_unreads = Navbar.sum_unreads(pv_list)
+
+        context = {
+            "obj": obj,
+            "form": form,
+            "tool_2": tool_2,
+            "pv_list": pv_list,
+            "user": request.user,
+            "sum_unreads": sum_unreads,
+        }
+
+        return render(request, "chat.html", context)
+
     else:
-        form = EditMessageModelForm(instance=message)
-
-    obj = Chat.objects.filter(roomid=room_id).order_by('datetime')
-
-    for i in obj:
-        i.time = i.datetime.time()
-        try:
-            i.firstChar = i.message[0]
-        except:
-            i.firstChar = ''
-
-    pv_list = Navbar.pv_list(request)
-    sum_unreads = Navbar.sum_unreads(pv_list)
-
-    context = {
-        "obj": obj,
-        "form": form,
-        "tool_2": tool_2,
-        "pv_list": pv_list,
-        "user": request.user,
-        "sum_unreads": sum_unreads,
-    }
-
-    return render(request, "chat.html", context)
-
+        return render(request, 'error404.html')
 
 ####################################################################################
 
@@ -243,10 +246,12 @@ def chat_delete_view(request, msg_id, room_id):
 
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
-
-    print(request.user.username + " Deleted " + str(message))
-    message.delete()
-    return redirect("../")
+    if request.user == message.user:
+        print(request.user.username + " Deleted " + str(message))
+        message.delete()
+        return redirect("../")
+    else:
+        return render(request, 'error404.html')
 
 ####################################################################################
 
