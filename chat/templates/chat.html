@@ -67,7 +67,7 @@
                         {% if i.firstChar in tool_2.alphabet %}
                             <li id={{ forloop.counter }}>
                               <div class="message-data">
-                                  <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
+                                  <span><a href="/profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
                                 {% if i.image %}
@@ -84,7 +84,7 @@
                         {% else %}
                             <li id={{ forloop.counter }}>
                               <div class="message-data">
-                                <span><a href="../../profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
+                                <span><a href="/profile/{{i.user.username}}" class="message-data-name">{{i.user.username}}</a></span>
                                 <span class="message-data-time">{{ i.time }}</span>
                               </div>
                                 {% if i.image %}
