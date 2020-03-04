@@ -235,7 +235,7 @@ def chat_edit_view(request, msg_id, room_id):
         return render(request, "chat.html", context)
 
     else:
-        return render(request, 'error404.html')
+        return render(request, 'error403.html')
 
 ####################################################################################
 
@@ -251,7 +251,7 @@ def chat_delete_view(request, msg_id, room_id):
         message.delete()
         return redirect("../")
     else:
-        return render(request, 'error404.html')
+        return render(request, 'error403.html')
 
 ####################################################################################
 
