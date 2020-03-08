@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     #own
     'chat',
     'game',
+    'receiver',
 
 ]
 

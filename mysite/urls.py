@@ -39,6 +39,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include("chat.urls")),
     path('game/', include("game.urls")),
+    path('upload/', include("receiver.urls")),
 
     path('', main_view, name="main"),
     path('login/', LoginView.as_view(template_name='login.html'), name="login"),
