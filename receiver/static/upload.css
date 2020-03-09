@@ -1,0 +1,38 @@
+
+body{
+    padding-left:50px;
+}
+
+
+.dropbtn {
+  background-color: grey;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  margin-top:50px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  overflow: auto;
+  z-index: 1;
+
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  display: block;
+
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}

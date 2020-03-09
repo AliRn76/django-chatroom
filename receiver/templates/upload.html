@@ -1,0 +1,41 @@
+{% load static %}
+
+<html>
+<header>
+  <link rel="stylesheet" type="text/css" href="{% static 'upload.css' %}">
+</header>
+<body>
+    <a href="/">Home</a>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+    <a href="../{{last_upload}}" target="_blank">{{last_upload}}</a>
+
+  <div class="dropdown">
+    <button onclick="myFunction()" class="dropbtn">My Uploads</button>
+    <div id="myDropdown" class="dropdown-content">
+        {% for link in my_links%}
+        <span><a style="float:left" href="..{{ link.document.url }}" target="_blank" ><b style="color:black">{{forloop.counter}}.</b> {{ link.document.url }}</a><a style="float:left; color:red; text-decoration: none;" href="/upload/{{forloop.counter}}/delete" ><b>Delete</b></a> <br></span>
+        {% endfor %}
+
+    </div>
+  </div>
+
+  <script>
+  function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+    if (openDropdown.classList.contains('show')) {
+          openDropdown.classList.remove('show');
+        }
+  }
+
+
+  </script>
+
+</body>
+</html>
+
+
