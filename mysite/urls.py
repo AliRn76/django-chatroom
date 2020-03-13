@@ -40,6 +40,8 @@ urlpatterns = [
     path('chat/', include("chat.urls")),
     path('game/', include("game.urls")),
     path('upload/', include("receiver.urls")),
+    path('api/', include("api.urls")),
+
 
     path('', main_view, name="main"),
     path('login/', LoginView.as_view(template_name='login.html'), name="login"),
@@ -49,6 +51,7 @@ urlpatterns = [
     path('myprofile/', myprofile_view, name="myprofile"),
     path('myprofile/edit', myprofile_edit_view, name="myprofile-edit"),
     path('private-chat/<int:pv_id>', private_chat_view, name="private-chat"),
+
 
 
     # path('login/', login_view, name="login"),
