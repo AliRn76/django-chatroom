@@ -31,7 +31,7 @@
                               </div>
                                 {% if i.image %}
                                   <div class="message other-message float-right" style="padding:5px">
-                                    <img src="{{ i.image.url }}" style="max-height: 500px;"/>
+                                    <a href="{{ i.image.url }}" target="_blank"><img src="{{ i.image.url }}" style="max-height: 500px;"/></a>
                                     {{ i.message }}
                                   </div>
                                 {% else %}
@@ -52,7 +52,7 @@
                               </div>
                               {% if i.image %}
                                   <div class="message other-message float-right" dir="rtl" style="padding:5px">
-                                    <img src="{{ i.image.url }}" style="max-height: 500px;"/>
+                                    <a href="{{ i.image.url }}" target="_blank"><img src="{{ i.image.url }}" style="max-height: 500px;"/></a>
                                     {{ i.message }}
                                   </div>
                                 {% else %}
