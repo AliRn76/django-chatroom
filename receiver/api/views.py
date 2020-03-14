@@ -17,9 +17,9 @@ def upload_view(request):
         print(request.data)
         serializer = DocumentSerializer(data=request.data)
         if serializer.is_valid():
-            data['respose'] = "that was good"
+            data['response'] = "that was good"
         else:
-            data['respose'] = "error"
+            data['response'] = "your file has problem"
     else:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
