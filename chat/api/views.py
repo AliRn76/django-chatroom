@@ -15,7 +15,7 @@ def chat_api_view(request):
 
         # Set Pagination
         paginator = PageNumberPagination()
-        paginator.page_size = 10
+        paginator.page_size = 100
         obj = Chat.objects.filter(roomid_id=1).order_by('datetime')
         for i in obj:
             i.time = i.datetime.time()
