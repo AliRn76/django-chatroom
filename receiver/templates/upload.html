@@ -9,7 +9,9 @@
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Upload</button>
+        <br>
+        <br>
+    <button class="liquid-button" type="submit">Upload</button>
   </form>
 
     <a href="../{{last_upload}}" target="_blank">{{last_upload}}</a>
