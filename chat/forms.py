@@ -123,10 +123,13 @@ class SendMessageModelForm(forms.ModelForm):
 
         msg = message_tmp.split()
 
-        for i in tool_1.Curse:
-            if i.lower() in msg:
+        print(msg)
+        for i in range(len(msg)):
+            if msg[i] in tool_1.Curse:
+                msg[i] = "****"
 
-                raise forms.ValidationError("PLS BE POLITE")
+        message = ' '.join(msg)
+                # raise forms.ValidationError("PLS BE POLITE")
         return message
 
 
