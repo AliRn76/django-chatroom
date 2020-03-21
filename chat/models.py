@@ -36,6 +36,9 @@ class Chat(models.Model):
     def get_url_edit(self):
         return reverse("chat_edit", kwargs={"msg_id" : self.id, "room_id" : self.roomid_id})
 
+    def get_url_pv_edit(self):
+        return reverse("private-chat_edit", kwargs={"msg_id" : self.id, "pv_id" : self.roomid_id})
+
     def get_url_delete(self):
         return reverse("chat_delete", kwargs={"msg_id" : self.id, "room_id" : self.roomid_id})
 

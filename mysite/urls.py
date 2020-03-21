@@ -26,7 +26,8 @@ from chat.views import main_view, \
     private_chat_view, \
     myprofile_view ,\
     myprofile_edit_view, \
-    logout_view
+    logout_view, \
+    private_chat_edit_view
 
 
     # login_view, \
@@ -50,7 +51,8 @@ urlpatterns = [
     path('profile/<str:user_username>', profile_view, name="profile"),
     path('myprofile/', myprofile_view, name="myprofile"),
     path('myprofile/edit', myprofile_edit_view, name="myprofile-edit"),
-    path('private-chat/<int:pv_id>', private_chat_view, name="private-chat"),
+    path('private-chat/<int:pv_id>/', private_chat_view, name="private-chat"),
+    path('private-chat/<int:pv_id>/<int:msg_id>/edit', private_chat_edit_view, name="private-chat_edit"),
 
 
 

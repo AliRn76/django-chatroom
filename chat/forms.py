@@ -120,16 +120,14 @@ class SendMessageModelForm(forms.ModelForm):
     def clean_message(self):
         message = self.cleaned_data.get("message")
         message_tmp = message.lower()
-
         msg = message_tmp.split()
 
-        print(msg)
         for i in range(len(msg)):
             if msg[i] in tool_1.Curse:
                 msg[i] = "****"
 
         message = ' '.join(msg)
-                # raise forms.ValidationError("PLS BE POLITE")
+
         return message
 
 
@@ -179,8 +177,10 @@ class EditMessageModelForm(forms.ModelForm):
 
         msg = message_tmp.split()
 
-        for i in tool_1.Curse:
-            if i.lower() in msg:
+        for i in range(len(msg)):
+            if msg[i] in tool_1.Curse:
+                msg[i] = "****"
 
-                raise forms.ValidationError("PLS BE POLITE")
+        message = ' '.join(msg)
+
         return message

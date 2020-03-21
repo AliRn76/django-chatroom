@@ -26,7 +26,11 @@
                                 <span class="message-data-name">{{i.user.username}}</span>
                               </div>
                               <div class="float-right" style="font-size:10px; margin-right:0px; margin-left: 8px">
-                                <div><a href="{{ i.get_url_edit }}">Edit</a></div>
+                              {% if edit_view == 'pv' %}
+                                <div><a href="{{ i.get_url_pv_edit }}">Edit</a></div>
+                              {% else %}
+                                  <div><a href="{{ i.get_url_edit }}">Edit</a></div>
+                              {% endif %}
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
                                 {% if i.image %}
@@ -47,7 +51,11 @@
                                       <span class="message-data-name">{{i.user.username}}</span>
                               </div>
                               <div class="float-right" style="font-size:10px; margin-right:0px; margin-left: 8px">
-                                <div><a href="{{ i.get_url_edit }}">Edit</a></div>
+                              {% if edit_view == 'pv' %}
+                                <div><a href="{{ i.get_url_pv_edit }}">Edit</a></div>
+                              {% else %}
+                                  <div><a href="{{ i.get_url_edit }}">Edit</a></div>
+                              {% endif %}
                                 <div style="margin-top:10px"><a href="{{ i.get_url_delete }}">Delete</a></div>
                               </div>
                               {% if i.image %}

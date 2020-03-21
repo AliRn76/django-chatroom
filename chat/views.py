@@ -95,7 +95,11 @@ class Navbar:
 
 def main_view(request):
     try:
-        print("Hello " + request.user.username)
+        # print("Welcome " + request.user.username)
+        with open('log.txt', 'a') as file:
+            data = str(datetime.now()) + " Welcome " + request.user.username + "\n"
+            file.write(data)
+
         pv_list = Navbar.pv_list(request)
         sum_unreads = Navbar.sum_unreads(pv_list)
 
@@ -114,7 +118,11 @@ def main_view(request):
 ####################################################################################
 
 def logout_view(request):
-    print("Bye " + request.user.username)
+    # print("Bye " + request.user.username)
+    with open('log.txt', 'a') as file:
+        data = str(datetime.now()) + " Bye " + request.user.username + "\n"
+        file.write(data)
+
     logout(request)
     return redirect("../")
 
@@ -146,7 +154,11 @@ def singup_view(request):
 
 @login_required()
 def chat_view(request, room_id):
-    print(request.user.username + " Visited PublicChat ")
+    # print(request.user.username + " Visited PublicChat ")
+    # with open('log.txt', 'a') as file:
+    #     data = request.user.username + " Visited PublicChat " + "\n"
+    #     file.write(data)
+
     if request.method == "POST":
         form = SendMessageModelForm(request.POST, request.FILES)
 
@@ -157,7 +169,11 @@ def chat_view(request, room_id):
             object.roomid_id    = room_id
             object.unread       = True
             if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
-                print(request.user.username + " Send Message To PublicChat ---> " + form.cleaned_data.get("message"))
+                # print(request.user.username + " Send Message To PublicChat ---> " + form.cleaned_data.get("message"))
+                with open('log.txt', 'a') as file:
+                    data = str(datetime.now()) + " " + request.user.username + " Send Message To PublicChat ---> " + form.cleaned_data.get("message") + "\n"
+                    file.write(data)
+
                 object.save()
 
         form = SendMessageModelForm()
@@ -198,13 +214,17 @@ def chat_edit_view(request, msg_id, room_id):
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
 
+    last_message = message.message
     if request.user == message.user:
-        print(request.user.username + " Trying To Edit " + str(message))
         if request.method == "POST":
             form = EditMessageModelForm(request.POST, instance=message)
 
             if form.is_valid():
-                print(request.user.username + " Edited " + str(message) + " ---> " + form.cleaned_data.get("message"))
+                # print(request.user.username + " Edited " + str(message.message) + " ---> " + form.cleaned_data.get("message"))
+                with open('log.txt', 'a') as file:
+                    data = str(datetime.now()) +  " " + request.user.username + " Edited " + last_message + " ---> " + form.cleaned_data.get("message") + "\n"
+                    file.write(data)
+
                 form.save()
 
                 return redirect("../")
@@ -230,6 +250,7 @@ def chat_edit_view(request, msg_id, room_id):
             "pv_list": pv_list,
             "user": request.user,
             "sum_unreads": sum_unreads,
+            "edit_view": "public",
         }
 
         return render(request, "chat.html", context)
@@ -247,7 +268,11 @@ def chat_delete_view(request, msg_id, room_id):
     except Chat.DoesNotExist:
         return render(request, 'error404.html')
     if request.user == message.user:
-        print(request.user.username + " Deleted " + str(message))
+        # print(request.user.username + " Deleted " + str(message))
+        with open('log.txt', 'a') as file:
+            data = str(datetime.now()) +  " " + request.user.username + " Deleted (roomID:" + str(room_id) + ") ---> " + message.message + "\n"
+            file.write(data)
+
         message.delete()
         return redirect("../")
     else:
@@ -262,7 +287,10 @@ def profile_view(request, user_username):
     except User.DoesNotExist:
         return render(request, 'error404.html')
 
-    print(request.user.username + " Visited " + user_username + " Profile")
+    # print(request.user.username + " Visited " + user_username + " Profile")
+    with open('log.txt', 'a') as file:
+        data = str(datetime.now()) +  " " + request.user.username + " Visited " + user_username + " Profile" + "\n"
+        file.write(data)
 
     object = User.objects.get(id=user_id)
 
@@ -317,7 +345,11 @@ def profile_view(request, user_username):
 
 @login_required()
 def myprofile_view(request):
-    print(request.user.username + " Checked His Profile")
+    # print(request.user.username + " Checked His Profile")
+    with open('log.txt', 'a') as file:
+        data = str(datetime.now()) +  " " + request.user.username + " Checked His Profile" + "\n"
+        file.write(data)
+
     object = User.objects.get(id=request.user.id)
 
     pv_list = Navbar.pv_list(request)
@@ -346,9 +378,15 @@ def myprofile_edit_view(request):
             obj.username = form.cleaned_data.get("username")
             obj.email = form.cleaned_data.get("email")
             obj.save()
-            print(request.user.username + " Change His Profile From " +
-                  lastobj.first_name + " " + lastobj.last_name  + " " + lastobj.username + " " + lastobj.email + " ---> " +
-                  obj.first_name     + " " + obj.last_name      + " " + obj.username     + " " + obj.email)
+            # print(request.user.username + " Change His Profile From " +
+            #       lastobj.first_name + " " + lastobj.last_name  + " " + lastobj.username + " " + lastobj.email + " ---> " +
+            #       obj.first_name     + " " + obj.last_name      + " " + obj.username     + " " + obj.email)
+            with open('log.txt', 'a') as file:
+                data = str(datetime.now()) +  " " + request.user.username + " Change His Profile From " + \
+                  lastobj.first_name + " - " + lastobj.last_name  + " - " + lastobj.username + " - " + lastobj.email + " ---> " + \
+                  obj.first_name     + " - " + obj.last_name      + " - " + obj.username     + " - " + obj.email + "\n"
+                file.write(data)
+
             return redirect(".")
 
     else:
@@ -385,7 +423,10 @@ def private_chat_view(request, pv_id):
     else:
         pv_username = name2_rooms[0]      # List Az Name PV Hayi Ke Dari
 
-    print(request.user.username + " Trying To Send PV Message To " + pv_username )
+    # print(request.user.username + " Trying To Send PV Message To " + pv_username)
+    # with open('log.txt', 'a') as file:
+    #     data = str(datetime.now()) + " " + request.user.username + " Trying To Send PV Message To " + pv_username + "\n"
+    #     file.write(data)
 
     if request.method == "POST":
         form = SendMessageModelForm(request.POST, request.FILES)
@@ -396,8 +437,13 @@ def private_chat_view(request, pv_id):
             object.datetime     = datetime.now()
             object.roomid_id    = pv_id
             object.unread       = True
+
             if not (form.cleaned_data.get("message") == '' and form.cleaned_data.get("image") is None):
-                print(request.user.username + " Send Message To " + pv_username + " ---> " + form.cleaned_data.get("message"))
+                # print(request.user.username + " Send Message To " + pv_username + " ---> " + form.cleaned_data.get("message"))
+                with open('log.txt', 'a') as file:
+                    data = str(datetime.now()) + " " + request.user.username + " Send Message To " + pv_username + " ---> " + form.cleaned_data.get("message") + "\n"
+                    file.write(data)
+
                 object.save()
 
         form = SendMessageModelForm()
@@ -429,9 +475,65 @@ def private_chat_view(request, pv_id):
         "pv_list": pv_list,
         "user": request.user,
         "sum_unreads": sum_unreads,
+        "edit_view": "pv",
     }
 
     return render(request, "chat.html", context)
 
+
+
+####################################################################################
+
+
+@login_required()
+def private_chat_edit_view(request, msg_id, pv_id):
+    try:
+        message = Chat.objects.get(id=msg_id, roomid=pv_id)
+
+    except Chat.DoesNotExist:
+        return render(request, 'error404.html')
+
+    last_message = message.message
+    if request.user == message.user:
+        if request.method == "POST":
+            form = EditMessageModelForm(request.POST, instance=message)
+
+            if form.is_valid():
+                # print(request.user.username + " Edited " + str(message.message) + " ---> " + form.cleaned_data.get("message"))
+                with open('log.txt', 'a') as file:
+                    data = str(datetime.now()) + " " + request.user.username + " Edited " + last_message + " ---> " + form.cleaned_data.get("message") + "\n"
+                    file.write(data)
+
+                form.save()
+
+                return redirect("../")
+        else:
+            form = EditMessageModelForm(instance=message)
+
+        obj = Chat.objects.filter(roomid=pv_id).order_by('datetime')
+
+        for i in obj:
+            i.time = i.datetime.time()
+            try:
+                i.firstChar = i.message[0]
+            except:
+                i.firstChar = ''
+
+        pv_list = Navbar.pv_list(request)
+        sum_unreads = Navbar.sum_unreads(pv_list)
+
+        context = {
+            "obj": obj,
+            "form": form,
+            "tool_2": tool_2,
+            "pv_list": pv_list,
+            "user": request.user,
+            "sum_unreads": sum_unreads,
+        }
+
+        return render(request, "chat.html", context)
+
+    else:
+        return render(request, 'error403.html')
 
 ####################################################################################
